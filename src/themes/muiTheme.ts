@@ -3,9 +3,9 @@ import { createTheme } from '@mui/material/styles';
 const muiTheme = createTheme({
   palette: {
     primary: {
-      main: '#1a9185',
-      light: '#e6f5f4',
-      dark: '#147a70',
+      main: '#4A90E2',
+      light: '#E8F2FA',
+      dark: '#3B7AC7',
       contrastText: '#ffffff',
     },
     secondary: {
@@ -132,13 +132,13 @@ const muiTheme = createTheme({
           textTransform: 'none',
           boxShadow: 'none',
           '&:hover': {
-            boxShadow: '0 4px 12px rgba(26, 145, 133, 0.2)',
+            boxShadow: '0 4px 12px rgba(74, 144, 226, 0.2)',
           },
         },
         contained: {
-          background: 'linear-gradient(135deg, #1a9185 0%, #147a70 100%)',
+          background: 'linear-gradient(135deg, #4A90E2 0%, #3B7AC7 100%)',
           '&:hover': {
-            background: 'linear-gradient(135deg, #147a70 0%, #0f5d56 100%)',
+            background: 'linear-gradient(135deg, #3B7AC7 0%, #3066B0 100%)',
           },
         },
       },
@@ -172,10 +172,10 @@ const muiTheme = createTheme({
           '& .MuiOutlinedInput-root': {
             borderRadius: 10,
             '&:hover fieldset': {
-              borderColor: '#1a9185',
+              borderColor: '#4A90E2',
             },
             '&.Mui-focused fieldset': {
-              borderColor: '#1a9185',
+              borderColor: '#4A90E2',
               borderWidth: 2,
             },
           },
@@ -203,11 +203,11 @@ const muiTheme = createTheme({
           borderRadius: 10,
           marginBottom: 4,
           '&.Mui-selected': {
-            backgroundColor: 'rgba(26, 145, 133, 0.2)',
-            color: '#1a9185',
+            backgroundColor: 'rgba(74, 144, 226, 0.2)',
+            color: '#4A90E2',
             fontWeight: 600,
             '&:hover': {
-              backgroundColor: 'rgba(26, 145, 133, 0.3)',
+              backgroundColor: 'rgba(74, 144, 226, 0.3)',
             },
           },
           '&:hover': {

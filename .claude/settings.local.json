@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(npm install:*)",
-      "Bash(npx tailwindcss init -p)"
+      "Bash(npx tailwindcss init -p)",
+      "Bash(test:*)",
+      "Bash(tree:*)",
+      "Bash(ls -la \"c:\\\\Dev-Pessoal\\\\sistema-front-escalas\\\\src\\\\pages\"\" | grep -i \"home \")",
+      "Bash(git mv:*)",
+      "Bash(find:*)",
+      "Bash(powershell -Command:*)"
     ]
   }
 }

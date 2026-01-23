@@ -1,7 +1,6 @@
 import {
   AppBar,
   Toolbar,
-  Typography,
   Box,
   IconButton,
   Avatar,
@@ -10,6 +9,7 @@ import {
   Breadcrumbs,
   Link,
 } from '@mui/material';
+import CustomText from '@/components/CustomText';
 import {
   Menu as MenuIcon,
   Notifications as NotificationsIcon,
@@ -17,29 +17,31 @@ import {
 } from '@mui/icons-material';
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
   onMenuClick: () => void;
   sidebarCollapsed: boolean;
+  isMobile?: boolean;
 }
 
-const DRAWER_COLLAPSED_WIDTH = 72;
-const DRAWER_WIDTH = 260;
-
-const pageTitles: Record<string, { title: string; breadcrumb: string }> = {
-  '/dashboard': { title: 'Painel de Controle', breadcrumb: 'Início' },
-  '/usuarios': { title: 'Gerenciar Usuários', breadcrumb: 'Usuários' },
-  '/ministerios': { title: 'Gerenciar Ministérios', breadcrumb: 'Ministérios' },
-  '/voluntarios': { title: 'Gerenciar Voluntários', breadcrumb: 'Voluntários' },
-  '/familias': { title: 'Gerenciar Famílias', breadcrumb: 'Famílias' },
-  '/agenda': { title: 'Agenda de Eventos', breadcrumb: 'Agenda' },
-  '/eventos-fixos': { title: 'Eventos Fixos', breadcrumb: 'Eventos Fixos' },
+const pageTitles: Record<string, { titleKey: string; breadcrumbKey: string }> = {
+  '/dashboard': { titleKey: 'pageTitle.dashboard', breadcrumbKey: 'breadcrumb.inicio' },
+  '/relatorios': { titleKey: 'pageTitle.reports', breadcrumbKey: 'breadcrumb.relatorios' },
+  '/usuarios': { titleKey: 'pageTitle.users', breadcrumbKey: 'breadcrumb.usuarios' },
+  '/ministerios': { titleKey: 'pageTitle.ministries', breadcrumbKey: 'breadcrumb.ministerios' },
+  '/voluntarios': { titleKey: 'pageTitle.volunteers', breadcrumbKey: 'breadcrumb.voluntarios' },
+  '/familias': { titleKey: 'pageTitle.families', breadcrumbKey: 'breadcrumb.familias' },
+  '/agenda': { titleKey: 'pageTitle.schedule', breadcrumbKey: 'breadcrumb.agenda' },
+  '/eventos-fixos': { titleKey: 'pageTitle.fixedEvents', breadcrumbKey: 'breadcrumb.eventosFixos' },
+  '/configuracoes': { titleKey: 'pageTitle.settings', breadcrumbKey: 'breadcrumb.configuracoes' },
 };
 
-export default function Header({ onMenuClick, sidebarCollapsed }: HeaderProps) {
+export default function Header({ onMenuClick, sidebarCollapsed, isMobile = false }: HeaderProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -55,7 +57,7 @@ export default function Header({ onMenuClick, sidebarCollapsed }: HeaderProps) {
     navigate('/login');
   };
 
-  const currentPage = pageTitles[location.pathname] || { title: 'Ministry Planner', breadcrumb: 'Início' };
+  const currentPage = pageTitles[location.pathname] || { titleKey: 'pageTitle.dashboard', breadcrumbKey: 'breadcrumb.inicio' };
 
   const user = JSON.parse(localStorage.getItem('user') || '{"name":"Usuário"}');
 
@@ -64,60 +66,73 @@ export default function Header({ onMenuClick, sidebarCollapsed }: HeaderProps) {
       position="sticky"
       elevation={0}
       sx={{
-        backgroundColor: 'white',
-        borderBottom: '1px solid #e2e8f0',
-        ml: sidebarCollapsed ? `${DRAWER_COLLAPSED_WIDTH}px` : `${DRAWER_WIDTH}px`,
-        width: sidebarCollapsed
-          ? `calc(100% - ${DRAWER_COLLAPSED_WIDTH}px)`
-          : `calc(100% - ${DRAWER_WIDTH}px)`,
-        transition: 'all 0.2s ease',
+        bgcolor: 'background.paper',
+        borderBottom: '1px solid',
+        borderColor: 'divider',
+        width: '100%',
       }}
     >
       <Toolbar
         sx={{
-          height: 72,
-          px: 3,
+          height: { xs: 64, sm: 72 },
+          px: { xs: 2, sm: 3 },
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
         }}
       >
         {/* Left Section */}
-        <Box>
-          <Breadcrumbs
-            sx={{
-              fontSize: '0.8rem',
-              color: '#64748b',
-              mb: 0.5,
-              '& .MuiBreadcrumbs-separator': {
-                mx: 0.5,
-              },
-            }}
-          >
-            <Link
-              underline="hover"
-              color="inherit"
-              href="/dashboard"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate('/dashboard');
-              }}
-              sx={{ cursor: 'pointer' }}
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1.5, sm: 2 } }}>
+          {isMobile && (
+            <IconButton
+              onClick={onMenuClick}
+              size="medium"
+              sx={{ color: 'text.secondary', ml: -1 }}
             >
-              Início
-            </Link>
-            <Typography sx={{ fontSize: '0.8rem', color: '#1e293b', fontWeight: 500 }}>
-              {currentPage.breadcrumb}
-            </Typography>
-          </Breadcrumbs>
-          <Typography variant="h5" sx={{ fontWeight: 700, color: '#1e293b' }}>
-            {currentPage.title}
-          </Typography>
+              <MenuIcon />
+            </IconButton>
+          )}
+          <Box>
+            <Breadcrumbs
+              sx={{
+                fontSize: { xs: '0.7rem', sm: '0.8rem' },
+                color: 'text.secondary',
+                mb: 0.5,
+                '& .MuiBreadcrumbs-separator': {
+                  mx: 0.5,
+                },
+                display: { xs: 'none', sm: 'flex' },
+              }}
+            >
+              <Link
+                underline="hover"
+                color="inherit"
+                href="/dashboard"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/dashboard');
+                }}
+                sx={{ cursor: 'pointer' }}
+              >
+                {t('home')}
+              </Link>
+              <CustomText size="0.8rem" color="text.primary" weight={500}>
+                {t(currentPage.breadcrumbKey)}
+              </CustomText>
+            </Breadcrumbs>
+            <CustomText
+              variant={isMobile ? 'h6' : 'h5'}
+              weight={700}
+              color="text.primary"
+            >
+              {t(currentPage.titleKey)}
+            </CustomText>
+          </Box>
         </Box>
 
         {/* Right Section */}
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-          <IconButton size="large" sx={{ color: '#64748b' }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: { xs: 1, sm: 2 } }}>
+          <IconButton size={isMobile ? 'medium' : 'large'} sx={{ color: 'text.secondary' }}>
             <NotificationsIcon />
           </IconButton>
 
@@ -126,7 +141,7 @@ export default function Header({ onMenuClick, sidebarCollapsed }: HeaderProps) {
             sx={{
               display: 'flex',
               alignItems: 'center',
-              gap: 1.5,
+              gap: { xs: 1, sm: 1.5 },
               cursor: 'pointer',
               '&:hover': {
                 opacity: 0.8,
@@ -135,21 +150,22 @@ export default function Header({ onMenuClick, sidebarCollapsed }: HeaderProps) {
           >
             <Avatar
               sx={{
-                bgcolor: '#1a9185',
-                width: 40,
-                height: 40,
+                bgcolor: '#4A90E2',
+                width: { xs: 36, sm: 40 },
+                height: { xs: 36, sm: 40 },
                 fontWeight: 600,
+                fontSize: { xs: '0.875rem', sm: '1rem' },
               }}
             >
               {user.name?.charAt(0) || 'U'}
             </Avatar>
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: '#1e293b', lineHeight: 1.2 }}>
+            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+              <CustomText size="0.875rem" weight={600} color="text.primary" lineHeight={1.2}>
                 {user.name || 'Usuário'}
-              </Typography>
-              <Typography sx={{ fontSize: '0.75rem', color: '#64748b' }}>
-                {user.role === 'admin' ? 'Administrador' : user.role === 'coordinator' ? 'Coordenador' : 'Voluntário'}
-              </Typography>
+              </CustomText>
+              <CustomText size="0.75rem" color="text.secondary">
+                {user.role === 'admin' ? t('roles.admin') : user.role === 'coordinator' ? t('roles.coordinator') : t('roles.volunteer')}
+              </CustomText>
             </Box>
           </Box>
 
@@ -175,7 +191,7 @@ export default function Header({ onMenuClick, sidebarCollapsed }: HeaderProps) {
           >
             <MenuItem onClick={handleLogout}>
               <LogoutIcon sx={{ mr: 2, fontSize: '1.25rem' }} />
-              Sair
+              {t('logout')}
             </MenuItem>
           </Menu>
         </Box>

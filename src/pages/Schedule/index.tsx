@@ -79,7 +79,7 @@ export default function Schedule() {
                     border: '1px solid #f1f5f9',
                     borderRadius: 2,
                     bgcolor: isCurrentDay ? '#e6f5f4' : 'white',
-                    borderColor: isCurrentDay ? '#1a9185' : '#f1f5f9',
+                    borderColor: isCurrentDay ? '#4A90E2' : '#f1f5f9',
                     transition: 'all 0.2s ease',
                     '&:hover': {
                       bgcolor: '#f8fafc',
@@ -90,7 +90,7 @@ export default function Schedule() {
                     sx={{
                       fontSize: '0.875rem',
                       fontWeight: isCurrentDay ? 600 : 400,
-                      color: isCurrentDay ? '#1a9185' : '#64748b',
+                      color: isCurrentDay ? '#4A90E2' : '#64748b',
                       mb: 0.5,
                     }}
                   >

@@ -175,16 +175,16 @@ ministry-planner/
 #### Material-UI Theme
 ```typescript
 primary: {
-  main: '#1a9185',        // Cor principal
-  light: '#e6f5f4',       // Background claro
-  dark: '#147a70',        // Hover/pressed
+  main: '#2563eb',        // Cor principal
+  light: '#eff6ff',       // Background claro
+  dark: '#1d4ed8',        // Hover/pressed
   contrastText: '#ffffff' // Texto sobre primary
 }
 ```
 
 #### Tailwind CSS Variables (HSL)
 ```css
---primary: 173 58% 39%;              /* hsl(173, 58%, 39%) = #1a9185 */
+--primary: 173 58% 39%;              /* hsl(173, 58%, 39%) = #2563eb */
 --primary-foreground: 0 0% 100%;     /* Branco */
 --primary-light: 173 58% 95%;        /* Background suave */
 --primary-hover: 173 58% 32%;        /* Hover state */
@@ -258,7 +258,7 @@ background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
 **Paleta de cores para ministérios** (usado no color picker):
 ```javascript
 const colorOptions = [
-  '#1a9185',  // Teal
+  '#2563eb',  // Teal
   '#f59e0b',  // Amber
   '#8b5cf6',  // Violet
   '#0ea5e9',  // Sky
@@ -473,14 +473,14 @@ transition: 'width 0.2s ease'
 **Logo Box**:
 ```typescript
 width: 40px, height: 40px, borderRadius: 2
-background: 'linear-gradient(135deg, #1a9185 0%, #147a70 100%)'
-boxShadow: '0 4px 12px rgba(26, 145, 133, 0.3)'
+background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)'
+boxShadow: '0 4px 12px rgba(37, 99, 235, 0.3)'
 ```
 
 **Item Ativo**:
 ```typescript
-backgroundColor: 'rgba(26, 145, 133, 0.2)'
-color: '#1a9185'
+backgroundColor: 'rgba(37, 99, 235, 0.2)'
+color: '#2563eb'
 fontWeight: 600
 ```
 
@@ -520,15 +520,15 @@ background: 'linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 50%, #f0f9ff 100%)'
 **Card**:
 ```typescript
 maxWidth: 440px
-boxShadow: '0 20px 40px -10px rgba(26, 145, 133, 0.15)'
+boxShadow: '0 20px 40px -10px rgba(37, 99, 235, 0.15)'
 padding: { xs: 3, sm: 5 }
 ```
 
 **Logo Box**:
 ```typescript
 width: 64px, height: 64px, borderRadius: 3
-background: 'linear-gradient(135deg, #1a9185 0%, #147a70 100%)'
-boxShadow: '0 8px 20px -4px rgba(26, 145, 133, 0.4)'
+background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)'
+boxShadow: '0 8px 20px -4px rgba(37, 99, 235, 0.4)'
 ```
 
 **Botões**:
@@ -550,7 +550,7 @@ padding: '16px'
 borderBottom: '1px solid #f1f5f9'
 ```
 
-**Avatar**: `bgcolor: '#1a9185'`, 36-40px
+**Avatar**: `bgcolor: '#2563eb'`, 36-40px
 
 **Chips de Status**: cores específicas por status
 
@@ -579,7 +579,7 @@ gap: 1
 minHeight: view === 'month' ? 100 : 200
 ```
 
-**Today Cell**: `bg: '#e6f5f4'`, `border: '#1a9185'`
+**Today Cell**: `bg: '#eff6ff'`, `border: '#2563eb'`
 
 **Event Badge**:
 ```typescript
@@ -816,7 +816,7 @@ npm run dev
 - [ ] Width: 260px expandida, 72px colapsada
 - [ ] Background: gradient #1e293b → #0f172a
 - [ ] Logo: 40x40, borderRadius 8px, gradient teal
-- [ ] Active item: bg rgba(26, 145, 133, 0.2)
+- [ ] Active item: bg rgba(37, 99, 235, 0.2)
 - [ ] Hover: bg rgba(255,255,255,0.08)
 - [ ] Transition: 0.2s ease
 

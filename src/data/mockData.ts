@@ -122,7 +122,7 @@ export const mockMinistries: Ministry[] = [
     id: 1,
     name: 'Louvor',
     description: 'Ministério de música e adoração',
-    color: '#1a9185',
+    color: '#4A90E2',
     leader: 'Maria Santos',
     volunteersCount: 12,
     status: 'active',
@@ -270,7 +270,7 @@ export const mockScheduleEvents: ScheduleEvent[] = [
     date: '2026-01-25',
     time: '10:00',
     ministry: 'Louvor',
-    color: '#1a9185',
+    color: '#4A90E2',
     volunteers: ['João Silva', 'Maria Santos'],
     description: 'Culto principal de domingo',
   },
@@ -300,7 +300,7 @@ export const mockScheduleEvents: ScheduleEvent[] = [
     date: '2026-01-28',
     time: '20:00',
     ministry: 'Louvor',
-    color: '#1a9185',
+    color: '#4A90E2',
     volunteers: ['Maria Santos'],
     description: 'Culto de meio de semana',
   },
@@ -313,7 +313,7 @@ export const mockFixedEvents: FixedEvent[] = [
     dayOfWeek: 0,
     time: '10:00',
     ministry: 'Louvor',
-    color: '#1a9185',
+    color: '#4A90E2',
     recurrence: 'weekly',
     volunteers: ['João Silva', 'Maria Santos'],
   },
@@ -343,7 +343,7 @@ export const mockFixedEvents: FixedEvent[] = [
     dayOfWeek: 3,
     time: '20:00',
     ministry: 'Louvor',
-    color: '#1a9185',
+    color: '#4A90E2',
     recurrence: 'weekly',
     volunteers: ['Maria Santos'],
   },
@@ -353,7 +353,7 @@ export const mockFixedEvents: FixedEvent[] = [
     dayOfWeek: 5,
     time: '20:00',
     ministry: 'Louvor',
-    color: '#1a9185',
+    color: '#4A90E2',
     recurrence: 'weekly',
     volunteers: ['João Silva'],
   },
@@ -368,7 +368,7 @@ export const mockDashboardStats: DashboardStats = {
 };
 
 export const colorOptions = [
-  '#1a9185',  // Teal
+  '#4A90E2',  // Teal
   '#f59e0b',  // Amber
   '#8b5cf6',  // Violet
   '#0ea5e9',  // Sky

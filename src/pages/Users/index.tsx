@@ -39,7 +39,7 @@ export default function Users() {
                 <TableRow key={user.id}>
                   <TableCell>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                      <Avatar sx={{ bgcolor: '#1a9185', width: 40, height: 40 }}>
+                      <Avatar sx={{ bgcolor: '#4A90E2', width: 40, height: 40 }}>
                         {user.name.charAt(0)}
                       </Avatar>
                       {user.name}

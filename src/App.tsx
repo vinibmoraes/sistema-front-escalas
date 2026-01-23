@@ -1,18 +1,31 @@
 import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
 import { Toaster } from 'sonner';
 import { AppRoutes } from './routes';
-import muiTheme from './themes/muiTheme';
+import { ThemeProvider, useTheme } from './contexts/ThemeContext';
+import { getTheme } from './themes/getTheme';
+import './i18n';
 
-function App() {
+function AppContent() {
+  const { mode } = useTheme();
+  const theme = getTheme(mode);
+
   return (
-    <ThemeProvider theme={muiTheme}>
+    <MUIThemeProvider theme={theme}>
       <CssBaseline />
       <BrowserRouter>
         <AppRoutes />
       </BrowserRouter>
       <Toaster position="top-right" />
+    </MUIThemeProvider>
+  );
+}
+
+function App() {
+  return (
+    <ThemeProvider>
+      <AppContent />
     </ThemeProvider>
   );
 }

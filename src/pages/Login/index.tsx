@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Box, Card, CardContent, TextField, Button, Typography, Divider, Link as MuiLink } from '@mui/material';
-import { Google as GoogleIcon } from '@mui/icons-material';
+import { Box, TextField, Button, Divider, Link as MuiLink, useTheme } from '@mui/material';
+import { Google as GoogleIcon, Church as ChurchIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import CustomText from '@/components/CustomText';
 import { authAPI } from '@/services/api';
 import { useToast } from '@/hooks/use-toast';
 
@@ -11,6 +13,8 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useTranslation();
+  const theme = useTheme();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,64 +45,119 @@ export default function Login() {
       sx={{
         minHeight: '100vh',
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'linear-gradient(135deg, #f0fdfa 0%, #e0f2fe 50%, #f0f9ff 100%)',
-        p: 2,
+        bgcolor: 'background.default',
       }}
     >
-      <Card
+      {/* Left Side - Decorative */}
+      <Box
         sx={{
-          maxWidth: 440,
-          width: '100%',
-          boxShadow: '0 20px 40px -10px rgba(26, 145, 133, 0.15)',
-          borderRadius: 4,
+          display: { xs: 'none', md: 'flex' },
+          flex: 1,
+          background: 'linear-gradient(135deg, #4A90E2 0%, #3066B0 50%, #3B7AC7 100%)',
+          position: 'relative',
+          overflow: 'hidden',
+          alignItems: 'center',
+          justifyContent: 'center',
+          p: 6,
         }}
       >
-        <CardContent sx={{ p: { xs: 3, sm: 5 } }}>
-          {/* Logo */}
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+        {/* Decorative circles */}
+        <Box
+          sx={{
+            position: 'absolute',
+            width: 400,
+            height: 400,
+            borderRadius: '50%',
+            background: 'rgba(255, 255, 255, 0.1)',
+            top: -100,
+            left: -100,
+            backdropFilter: 'blur(60px)',
+          }}
+        />
+        <Box
+          sx={{
+            position: 'absolute',
+            width: 300,
+            height: 300,
+            borderRadius: '50%',
+            background: 'rgba(255, 255, 255, 0.08)',
+            bottom: -50,
+            right: -50,
+            backdropFilter: 'blur(60px)',
+          }}
+        />
+
+        {/* Content */}
+        <Box sx={{ position: 'relative', zIndex: 1, textAlign: 'center', maxWidth: 500 }}>
+          <Box
+            sx={{
+              width: 100,
+              height: 100,
+              borderRadius: 4,
+              background: 'rgba(255, 255, 255, 0.2)',
+              backdropFilter: 'blur(20px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              mx: 'auto',
+              mb: 4,
+              border: '2px solid rgba(255, 255, 255, 0.3)',
+            }}
+          >
+            <ChurchIcon sx={{ fontSize: 60, color: 'white' }} />
+          </Box>
+          <CustomText variant="h3" weight={700} color="white" sx={{ mb: 2 }}>
+            {t('appName')} {t('appSubtitle')}
+          </CustomText>
+          <CustomText size="1.125rem" color="rgba(255, 255, 255, 0.9)">
+            Gerencie escalas, voluntários e ministérios de forma simples e eficiente
+          </CustomText>
+        </Box>
+      </Box>
+
+      {/* Right Side - Login Form */}
+      <Box
+        sx={{
+          flex: 1,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          p: { xs: 3, sm: 4 },
+          bgcolor: 'background.default',
+        }}
+      >
+        <Box sx={{ width: '100%', maxWidth: 480 }}>
+          {/* Logo for mobile */}
+          <Box
+            sx={{
+              display: { xs: 'flex', md: 'none' },
+              justifyContent: 'center',
+              mb: 4,
+            }}
+          >
             <Box
               sx={{
                 width: 64,
                 height: 64,
                 borderRadius: 3,
-                background: 'linear-gradient(135deg, #1a9185 0%, #147a70 100%)',
-                boxShadow: '0 8px 20px -4px rgba(26, 145, 133, 0.4)',
+                background: 'linear-gradient(135deg, #4A90E2 0%, #3B7AC7 100%)',
+                boxShadow: '0 8px 20px -4px rgba(74, 144, 226, 0.4)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: 'white',
-                fontWeight: 700,
-                fontSize: '2rem',
               }}
             >
-              M
+              <ChurchIcon sx={{ fontSize: 36, color: 'white' }} />
             </Box>
           </Box>
 
           {/* Title */}
-          <Typography
-            variant="h4"
-            sx={{
-              fontWeight: 700,
-              textAlign: 'center',
-              color: '#1e293b',
-              mb: 1,
-            }}
-          >
+          <CustomText variant="h4" weight={700} color="text.primary" sx={{ mb: 1 }}>
             Bem-vindo de volta
-          </Typography>
-          <Typography
-            sx={{
-              textAlign: 'center',
-              color: '#64748b',
-              mb: 4,
-              fontSize: '0.938rem',
-            }}
-          >
-            Entre com suas credenciais para acessar
-          </Typography>
+          </CustomText>
+          <CustomText color="text.secondary" size="1rem" sx={{ mb: 5 }}>
+            Entre com suas credenciais para acessar o sistema
+          </CustomText>
 
           {/* Form */}
           <form onSubmit={handleLogin}>
@@ -109,7 +168,7 @@ export default function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              sx={{ mb: 2 }}
+              sx={{ mb: 2.5 }}
             />
             <TextField
               fullWidth
@@ -130,8 +189,9 @@ export default function Login() {
                 }}
                 sx={{
                   fontSize: '0.875rem',
-                  color: '#1a9185',
+                  color: '#4A90E2',
                   textDecoration: 'none',
+                  fontWeight: 500,
                   '&:hover': {
                     textDecoration: 'underline',
                   },
@@ -147,11 +207,19 @@ export default function Login() {
               variant="contained"
               disabled={loading}
               sx={{
-                py: 1.5,
-                mb: 2,
-                background: 'linear-gradient(135deg, #1a9185 0%, #147a70 100%)',
+                py: 1.75,
+                mb: 2.5,
+                fontSize: '1rem',
+                fontWeight: 600,
+                textTransform: 'none',
+                background: 'linear-gradient(135deg, #4A90E2 0%, #3B7AC7 100%)',
+                boxShadow: '0 4px 12px -2px rgba(74, 144, 226, 0.3)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #147a70 0%, #0f5d56 100%)',
+                  background: 'linear-gradient(135deg, #3B7AC7 0%, #3066B0 100%)',
+                  boxShadow: '0 6px 16px -2px rgba(74, 144, 226, 0.4)',
+                },
+                '&:disabled': {
+                  background: 'rgba(74, 144, 226, 0.3)',
                 },
               }}
             >
@@ -160,7 +228,9 @@ export default function Login() {
           </form>
 
           <Divider sx={{ my: 3 }}>
-            <Typography sx={{ color: '#64748b', fontSize: '0.875rem' }}>ou</Typography>
+            <CustomText size="0.875rem" color="text.secondary">
+              ou
+            </CustomText>
           </Divider>
 
           {/* Google Login */}
@@ -169,12 +239,15 @@ export default function Login() {
             variant="outlined"
             startIcon={<GoogleIcon />}
             sx={{
-              py: 1.5,
-              borderColor: '#e2e8f0',
-              color: '#1e293b',
+              py: 1.75,
+              fontSize: '1rem',
+              fontWeight: 500,
+              textTransform: 'none',
+              borderColor: 'divider',
+              color: 'text.primary',
               '&:hover': {
-                borderColor: '#cbd5e1',
-                backgroundColor: '#f8fafc',
+                borderColor: 'text.secondary',
+                bgcolor: 'action.hover',
               },
             }}
           >
@@ -182,28 +255,30 @@ export default function Login() {
           </Button>
 
           {/* Footer */}
-          <Typography sx={{ textAlign: 'center', mt: 3, fontSize: '0.875rem', color: '#64748b' }}>
-            Não tem uma conta?{' '}
-            <MuiLink
-              href="/aceitar-convite"
-              onClick={(e) => {
-                e.preventDefault();
-                navigate('/aceitar-convite');
-              }}
-              sx={{
-                color: '#1a9185',
-                textDecoration: 'none',
-                fontWeight: 600,
-                '&:hover': {
-                  textDecoration: 'underline',
-                },
-              }}
-            >
-              Solicitar acesso
-            </MuiLink>
-          </Typography>
-        </CardContent>
-      </Card>
+          <Box sx={{ textAlign: 'center', mt: 4 }}>
+            <CustomText size="0.938rem" color="text.secondary">
+              Não tem uma conta?{' '}
+              <MuiLink
+                href="/aceitar-convite"
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/aceitar-convite');
+                }}
+                sx={{
+                  color: '#4A90E2',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  '&:hover': {
+                    textDecoration: 'underline',
+                  },
+                }}
+              >
+                Solicitar acesso
+              </MuiLink>
+            </CustomText>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   );
 }

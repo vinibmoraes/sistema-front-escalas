@@ -1,5 +1,7 @@
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent } from '@mui/material';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { useTranslation } from 'react-i18next';
+import CustomText from '@/components/CustomText';
 
 const data = [
   { month: 'Jan', volunteers: 45, newVolunteers: 5 },
@@ -17,13 +19,15 @@ const data = [
 ];
 
 export default function VolunteerGrowthChart() {
+  const { t } = useTranslation();
+
   return (
     <Card>
       <CardContent>
-        <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, color: '#1e293b' }}>
-          Crescimento de Voluntários
-        </Typography>
-        <ResponsiveContainer width="100%" height={300}>
+        <CustomText variant="h6" weight={600} color="text.primary" sx={{ mb: 3 }}>
+          {t('reports.volunteerGrowth')}
+        </CustomText>
+        <ResponsiveContainer width="100%" height={350}>
           <LineChart data={data} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
             <XAxis
@@ -50,16 +54,16 @@ export default function VolunteerGrowthChart() {
             <Line
               type="monotone"
               dataKey="volunteers"
-              name="Total de Voluntários"
-              stroke="#1a9185"
+              name={t('reports.totalVolunteers')}
+              stroke="#4A90E2"
               strokeWidth={3}
-              dot={{ fill: '#1a9185', r: 4 }}
+              dot={{ fill: '#4A90E2', r: 4 }}
               activeDot={{ r: 6 }}
             />
             <Line
               type="monotone"
               dataKey="newVolunteers"
-              name="Novos Voluntários"
+              name={t('reports.newVolunteers')}
               stroke="#8b5cf6"
               strokeWidth={3}
               dot={{ fill: '#8b5cf6', r: 4 }}

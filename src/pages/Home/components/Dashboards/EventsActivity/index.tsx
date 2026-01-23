@@ -1,5 +1,7 @@
-import { Card, CardContent, Typography } from '@mui/material';
+import { Card, CardContent, Box } from '@mui/material';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { useTranslation } from 'react-i18next';
+import CustomText from '@/components/CustomText';
 
 const data = [
   { month: 'Jan', cultos: 12, reunioes: 8, eventos: 3 },
@@ -12,52 +14,56 @@ const data = [
   { month: 'Ago', cultos: 13, reunioes: 11, eventos: 2 },
 ];
 
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label, t }: any) => {
   if (active && payload && payload.length) {
     const total = payload.reduce((sum: number, entry: any) => sum + entry.value, 0);
     return (
-      <div
-        style={{
-          backgroundColor: '#ffffff',
-          border: '1px solid #e2e8f0',
+      <Box
+        sx={{
+          backgroundColor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
           borderRadius: '8px',
           padding: '12px',
           boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
         }}
       >
-        <p style={{ margin: 0, fontWeight: 600, fontSize: '0.875rem', color: '#1e293b' }}>
+        <CustomText size="0.875rem" weight={600} color="text.primary" sx={{ mb: 0.5 }}>
           {label}
-        </p>
+        </CustomText>
         {payload.map((entry: any, index: number) => (
-          <p
+          <CustomText
             key={index}
-            style={{
-              margin: '4px 0',
-              fontSize: '0.813rem',
-              color: entry.color,
-              fontWeight: 500,
-            }}
+            size="0.813rem"
+            weight={500}
+            sx={{ my: 0.5, color: entry.color }}
           >
             {entry.name}: {entry.value}
-          </p>
+          </CustomText>
         ))}
-        <p style={{ margin: '8px 0 0 0', fontSize: '0.813rem', color: '#64748b', borderTop: '1px solid #f1f5f9', paddingTop: '8px' }}>
-          Total: {total} atividades
-        </p>
-      </div>
+        <CustomText
+          size="0.813rem"
+          color="text.secondary"
+          sx={{ mt: 1, pt: 1, borderTop: '1px solid', borderColor: 'divider' }}
+        >
+          Total: {total} {t('reports.activities')}
+        </CustomText>
+      </Box>
     );
   }
   return null;
 };
 
 export default function EventsActivityChart() {
+  const { t } = useTranslation();
+
   return (
     <Card>
       <CardContent>
-        <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, color: '#1e293b' }}>
-          Atividades Mensais
-        </Typography>
-        <ResponsiveContainer width="100%" height={300}>
+        <CustomText variant="h6" weight={600} color="text.primary" sx={{ mb: 3 }}>
+          {t('reports.monthlyActivities')}
+        </CustomText>
+        <ResponsiveContainer width="100%" height={350}>
           <BarChart
             data={data}
             margin={{ top: 5, right: 30, left: 0, bottom: 5 }}
@@ -72,26 +78,26 @@ export default function EventsActivityChart() {
               stroke="#64748b"
               style={{ fontSize: '0.813rem' }}
             />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip t={t} />} />
             <Legend
               wrapperStyle={{ fontSize: '0.875rem' }}
               iconType="circle"
             />
             <Bar
               dataKey="cultos"
-              name="Cultos"
-              fill="#1a9185"
+              name={t('reports.services')}
+              fill="#4A90E2"
               radius={[4, 4, 0, 0]}
             />
             <Bar
               dataKey="reunioes"
-              name="Reuniões"
+              name={t('reports.meetings')}
               fill="#f59e0b"
               radius={[4, 4, 0, 0]}
             />
             <Bar
               dataKey="eventos"
-              name="Eventos Especiais"
+              name={t('reports.specialEvents')}
               fill="#8b5cf6"
               radius={[4, 4, 0, 0]}
             />

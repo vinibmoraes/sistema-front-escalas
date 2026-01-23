@@ -9,11 +9,11 @@
 /* CSS Variables for Design System */
 @layer base {
   :root {
-    /* Primary Colors (Teal) */
-    --primary: 173 58% 39%;              /* #1a9185 */
+    /* Primary Colors (Blue) */
+    --primary: 207 76% 59%;              /* #4A90E2 */
     --primary-foreground: 0 0% 100%;     /* White */
-    --primary-light: 173 58% 95%;        /* #e6f5f4 */
-    --primary-hover: 173 58% 32%;        /* #147a70 */
+    --primary-light: 207 76% 95%;        /* #E8F2FA */
+    --primary-hover: 207 76% 50%;        /* #3B7AC7 */
 
     /* Secondary Colors */
     --secondary: 215 16% 47%;            /* #64748b */
@@ -38,7 +38,7 @@
     /* Border */
     --border: 214 32% 91%;               /* #e2e8f0 */
     --input: 214 32% 91%;
-    --ring: 173 58% 39%;
+    --ring: 207 76% 59%;
 
     /* Card */
     --card: 0 0% 100%;                   /* #ffffff */
@@ -54,7 +54,7 @@
     /* Sidebar Colors (Dark) */
     --sidebar-background: 220 20% 14%;   /* #1e293b */
     --sidebar-foreground: 210 20% 90%;
-    --sidebar-primary: 173 58% 50%;
+    --sidebar-primary: 207 76% 64%;
     --sidebar-accent: 220 20% 20%;
   }
 
@@ -68,7 +68,7 @@
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 173 58% 39%;
+    --primary: 207 76% 59%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 217 33% 17%;
@@ -85,7 +85,7 @@
 
     --border: 217 33% 17%;
     --input: 217 33% 17%;
-    --ring: 173 58% 39%;
+    --ring: 207 76% 59%;
   }
 }
 

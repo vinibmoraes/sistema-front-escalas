@@ -45,7 +45,7 @@ export default function ForgotPassword() {
         p: 2,
       }}
     >
-      <Card sx={{ maxWidth: 440, width: '100%', boxShadow: '0 20px 40px -10px rgba(26, 145, 133, 0.15)', borderRadius: 4 }}>
+      <Card sx={{ maxWidth: 440, width: '100%', boxShadow: '0 20px 40px -10px rgba(74, 144, 226, 0.15)', borderRadius: 4 }}>
         <CardContent sx={{ p: { xs: 3, sm: 5 } }}>
           <Box sx={{ mb: 3 }}>
             <MuiLink
@@ -58,7 +58,7 @@ export default function ForgotPassword() {
                 display: 'flex',
                 alignItems: 'center',
                 gap: 1,
-                color: '#1a9185',
+                color: '#4A90E2',
                 textDecoration: 'none',
                 '&:hover': { textDecoration: 'underline' },
               }}
@@ -95,9 +95,9 @@ export default function ForgotPassword() {
                 disabled={loading}
                 sx={{
                   py: 1.5,
-                  background: 'linear-gradient(135deg, #1a9185 0%, #147a70 100%)',
+                  background: 'linear-gradient(135deg, #4A90E2 0%, #3B7AC7 100%)',
                   '&:hover': {
-                    background: 'linear-gradient(135deg, #147a70 0%, #0f5d56 100%)',
+                    background: 'linear-gradient(135deg, #3B7AC7 0%, #3066B0 100%)',
                   },
                 }}
               >

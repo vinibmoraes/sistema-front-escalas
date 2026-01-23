@@ -1,8 +1,10 @@
-import { Card, CardContent, Typography, Box } from '@mui/material';
+import { Card, CardContent, Box } from '@mui/material';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { useTranslation } from 'react-i18next';
+import CustomText from '@/components/CustomText';
 
 const data = [
-  { name: 'Louvor', value: 28, color: '#1a9185' },
+  { name: 'Louvor', value: 28, color: '#4A90E2' },
   { name: 'Infantil', value: 24, color: '#f59e0b' },
   { name: 'Intercessão', value: 18, color: '#8b5cf6' },
   { name: 'Mídia', value: 15, color: '#0ea5e9' },
@@ -11,25 +13,26 @@ const data = [
   { name: 'Outros', value: 8, color: '#64748b' },
 ];
 
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload, t }: any) => {
   if (active && payload && payload.length) {
     const data = payload[0];
     return (
       <Box
         sx={{
-          backgroundColor: '#ffffff',
-          border: '1px solid #e2e8f0',
+          backgroundColor: 'background.paper',
+          border: '1px solid',
+          borderColor: 'divider',
           borderRadius: '8px',
           padding: '8px 12px',
           boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
         }}
       >
-        <Typography sx={{ fontSize: '0.875rem', fontWeight: 600, color: '#1e293b' }}>
+        <CustomText size="0.875rem" weight={600} color="text.primary">
           {data.name}
-        </Typography>
-        <Typography sx={{ fontSize: '0.813rem', color: '#64748b' }}>
-          {data.value} voluntários ({((data.value / data.payload.total) * 100).toFixed(1)}%)
-        </Typography>
+        </CustomText>
+        <CustomText size="0.813rem" color="text.secondary">
+          {data.value} {t('reports.volunteers')} ({((data.value / data.payload.total) * 100).toFixed(1)}%)
+        </CustomText>
       </Box>
     );
   }
@@ -52,9 +55,9 @@ const CustomLegend = ({ payload }: any) => {
               backgroundColor: entry.color,
             }}
           />
-          <Typography sx={{ fontSize: '0.813rem', color: '#64748b' }}>
+          <CustomText size="0.813rem" color="text.secondary">
             {entry.value}
-          </Typography>
+          </CustomText>
         </Box>
       ))}
     </Box>
@@ -62,23 +65,24 @@ const CustomLegend = ({ payload }: any) => {
 };
 
 export default function MinistryDistributionChart() {
+  const { t } = useTranslation();
   const total = data.reduce((sum, item) => sum + item.value, 0);
   const dataWithTotal = data.map(item => ({ ...item, total }));
 
   return (
     <Card>
       <CardContent>
-        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: '#1e293b' }}>
-          Distribuição por Ministério
-        </Typography>
-        <ResponsiveContainer width="100%" height={300}>
+        <CustomText variant="h6" weight={600} color="text.primary" sx={{ mb: 2 }}>
+          {t('reports.ministryDistribution')}
+        </CustomText>
+        <ResponsiveContainer width="100%" height={350}>
           <PieChart>
             <Pie
               data={dataWithTotal}
               cx="50%"
               cy="50%"
               labelLine={false}
-              outerRadius={90}
+              outerRadius={110}
               fill="#8884d8"
               dataKey="value"
               label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
@@ -87,7 +91,7 @@ export default function MinistryDistributionChart() {
                 <Cell key={`cell-${index}`} fill={entry.color} />
               ))}
             </Pie>
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip t={t} />} />
             <Legend content={<CustomLegend />} />
           </PieChart>
         </ResponsiveContainer>
