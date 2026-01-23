@@ -1,0 +1,15 @@
+import { IconButton, Tooltip } from '@mui/material';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
+import { useTheme } from '../../contexts/ThemeContext';
+
+export function CustomThemeToggle() {
+  const { mode, toggleTheme } = useTheme();
+
+  return (
+    <Tooltip title={mode === 'light' ? 'Modo escuro' : 'Modo claro'}>
+      <IconButton onClick={toggleTheme} color="inherit">
+        {mode === 'light' ? <Brightness4 /> : <Brightness7 />}
+      </IconButton>
+    </Tooltip>
+  );
+}
