@@ -1,78 +1,12 @@
-// Interfaces TypeScript
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: 'admin' | 'coordinator' | 'volunteer';
-  status: 'active' | 'inactive' | 'pending';
-  avatar?: string;
-  createdAt: string;
-}
-
-export interface Ministry {
-  id: number;
-  name: string;
-  description: string;
-  color: string;
-  leader: string;
-  volunteersCount: number;
-  status: 'active' | 'inactive';
-  createdAt: string;
-}
-
-export interface Volunteer {
-  id: number;
-  name: string;
-  email: string;
-  phone: string;
-  ministries: string[];
-  status: 'active' | 'inactive';
-  avatar?: string;
-  familyId?: number;
-  createdAt: string;
-}
-
-export interface Family {
-  id: number;
-  name: string;
-  members: number;
-  contact: string;
-  address: string;
-  createdAt: string;
-}
-
-export interface ScheduleEvent {
-  id: number;
-  title: string;
-  date: string;
-  time: string;
-  ministry: string;
-  color: string;
-  volunteers: string[];
-  description?: string;
-}
-
-export interface FixedEvent {
-  id: number;
-  name: string;
-  dayOfWeek: 0 | 1 | 2 | 3 | 4 | 5 | 6; // 0 = Sunday
-  time: string;
-  ministry: string;
-  color: string;
-  recurrence: 'weekly' | 'biweekly' | 'monthly';
-  volunteers: string[];
-}
-
-export interface DashboardStats {
-  totalVolunteers: number;
-  activeMinistries: number;
-  upcomingEvents: number;
-  totalFamilies: number;
-  totalUsers: number;
-}
-
-// Mock Data
+import type {
+  User,
+  Ministry,
+  Volunteer,
+  Family,
+  ScheduleEvent,
+  FixedEvent,
+  DashboardStats,
+} from '@/types';
 
 export const mockUsers: User[] = [
   {

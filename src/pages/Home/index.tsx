@@ -16,6 +16,14 @@ import EventCard from './components/EventCard';
 import MinistryCard from './components/MinistryCard';
 import ViewMoreDialog from '@/components/common/ViewMoreDialog';
 
+const STAT_CARDS_CONFIG = [
+  { icon: VolunteerActivism, labelKey: 'stats.volunteers', statKey: 'totalVolunteers', color: '#4A90E2' },
+  { icon: Church, labelKey: 'stats.ministries', statKey: 'activeMinistries', color: '#f59e0b' },
+  { icon: Event, labelKey: 'stats.events', statKey: 'upcomingEvents', color: '#8b5cf6' },
+  { icon: FamilyRestroom, labelKey: 'stats.families', statKey: 'totalFamilies', color: '#0ea5e9' },
+  { icon: People, labelKey: 'stats.users', statKey: 'totalUsers', color: '#ec4899' },
+] as const;
+
 export default function Home() {
   const [eventsDialogOpen, setEventsDialogOpen] = useState(false);
   const [ministriesDialogOpen, setMinistriesDialogOpen] = useState(false);
@@ -23,17 +31,10 @@ export default function Home() {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const statCards = [
-    { icon: VolunteerActivism, labelKey: 'stats.volunteers', value: mockDashboardStats.totalVolunteers, color: '#4A90E2' },
-    { icon: Church, labelKey: 'stats.ministries', value: mockDashboardStats.activeMinistries, color: '#f59e0b' },
-    { icon: Event, labelKey: 'stats.events', value: mockDashboardStats.upcomingEvents, color: '#8b5cf6' },
-    { icon: FamilyRestroom, labelKey: 'stats.families', value: mockDashboardStats.totalFamilies, color: '#0ea5e9' },
-    { icon: People, labelKey: 'stats.users', value: mockDashboardStats.totalUsers, color: '#ec4899' },
-  ];
+  const itemsToShow = isMobile ? 3 : 4;
 
   return (
-    <Box sx={{ px: { xs: 0, sm: 0 } }}>
-      {/* Welcome Section */}
+    <Box>
       <CustomText
         variant={isMobile ? 'h5' : 'h4'}
         weight={700}
@@ -42,7 +43,6 @@ export default function Home() {
         {t('welcome')}
       </CustomText>
 
-      {/* Stats Cards */}
       <Box
         sx={{
           display: 'grid',
@@ -56,19 +56,17 @@ export default function Home() {
           mb: { xs: 3, sm: 4 },
         }}
       >
-        {statCards.map((stat, index) => (
-          <Box key={index}>
-            <StatCard
-              icon={stat.icon}
-              label={t(stat.labelKey)}
-              value={stat.value}
-              color={stat.color}
-            />
-          </Box>
+        {STAT_CARDS_CONFIG.map((stat) => (
+          <StatCard
+            key={stat.statKey}
+            icon={stat.icon}
+            label={t(stat.labelKey)}
+            value={mockDashboardStats[stat.statKey]}
+            color={stat.color}
+          />
         ))}
       </Box>
 
-      {/* Main Content */}
       <CustomText
         variant={isMobile ? 'h6' : 'h5'}
         weight={700}
@@ -85,7 +83,6 @@ export default function Home() {
           gap: { xs: 1.5, sm: 2 },
         }}
       >
-        {/* Upcoming Events */}
         <Card sx={{ height: '100%' }}>
           <CardContent sx={{ p: { xs: 2, sm: 3 }, '&:last-child': { pb: { xs: 2, sm: 3 } } }}>
             <Box
@@ -110,16 +107,14 @@ export default function Home() {
                   fontSize: { xs: '0.75rem', sm: '0.875rem' },
                   minWidth: 'auto',
                   px: { xs: 1, sm: 1.5 },
-                  '&:hover': {
-                    bgcolor: 'rgba(26, 145, 133, 0.08)',
-                  },
+                  '&:hover': { bgcolor: 'rgba(74, 144, 226, 0.08)' },
                 }}
               >
                 {t('viewMore')}
               </Button>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 1, sm: 1.5 } }}>
-              {mockScheduleEvents.slice(0, isMobile ? 3 : 4).map((event) => (
+              {mockScheduleEvents.slice(0, itemsToShow).map((event) => (
                 <EventCard
                   key={event.id}
                   title={event.title}
@@ -133,7 +128,6 @@ export default function Home() {
           </CardContent>
         </Card>
 
-        {/* Ministries Overview */}
         <Card sx={{ height: '100%' }}>
           <CardContent sx={{ p: { xs: 2, sm: 3 }, '&:last-child': { pb: { xs: 2, sm: 3 } } }}>
             <Box
@@ -158,16 +152,14 @@ export default function Home() {
                   fontSize: { xs: '0.75rem', sm: '0.875rem' },
                   minWidth: 'auto',
                   px: { xs: 1, sm: 1.5 },
-                  '&:hover': {
-                    bgcolor: 'rgba(26, 145, 133, 0.08)',
-                  },
+                  '&:hover': { bgcolor: 'rgba(74, 144, 226, 0.08)' },
                 }}
               >
                 {t('viewMore')}
               </Button>
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: { xs: 1, sm: 1.5 } }}>
-              {mockMinistries.slice(0, isMobile ? 3 : 4).map((ministry) => (
+              {mockMinistries.slice(0, itemsToShow).map((ministry) => (
                 <MinistryCard
                   key={ministry.id}
                   name={ministry.name}
@@ -180,7 +172,6 @@ export default function Home() {
         </Card>
       </Box>
 
-      {/* Dialogs */}
       <ViewMoreDialog
         open={eventsDialogOpen}
         onClose={() => setEventsDialogOpen(false)}

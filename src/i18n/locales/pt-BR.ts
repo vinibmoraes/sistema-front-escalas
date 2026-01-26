@@ -27,7 +27,7 @@ export default {
 
   // Page Titles
   pageTitle: {
-    dashboard: "Painel de Controle",
+    home: "Início",
     reports: "Análises e Estatísticas",
     users: "Gerenciar Usuários",
     ministries: "Gerenciar Ministérios",

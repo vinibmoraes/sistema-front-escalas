@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Box, Card, CardContent, TextField, Button, Typography, Link as MuiLink } from '@mui/material';
 import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks';
+import { ROUTES } from '@/constants/routes';
 
 export default function AcceptInvite() {
   const [formData, setFormData] = useState({
@@ -15,7 +16,7 @@ export default function AcceptInvite() {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
@@ -34,7 +35,7 @@ export default function AcceptInvite() {
         description: 'Aguarde aprovação do administrador.',
         variant: 'success',
       });
-      navigate('/login');
+      navigate(ROUTES.LOGIN);
     }, 1000);
   };
 
@@ -53,10 +54,10 @@ export default function AcceptInvite() {
         <CardContent sx={{ p: { xs: 3, sm: 5 } }}>
           <Box sx={{ mb: 3 }}>
             <MuiLink
-              href="/login"
+              href={ROUTES.LOGIN}
               onClick={(e) => {
                 e.preventDefault();
-                navigate('/login');
+                navigate(ROUTES.LOGIN);
               }}
               sx={{
                 display: 'flex',

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { ROUTES } from '@/constants/routes';
 import {
   mockUsers,
   mockMinistries,
@@ -8,8 +9,34 @@ import {
   mockFixedEvents,
   mockDashboardStats,
 } from '@/data/mockData';
+import type {
+  User,
+  Ministry,
+  Volunteer,
+  Family,
+  ScheduleEvent,
+  FixedEvent,
+  DashboardStats,
+  ApiResponse,
+  AuthResponse,
+  MessageResponse,
+  CreateUserData,
+  UpdateUserData,
+  CreateMinistryData,
+  UpdateMinistryData,
+  CreateVolunteerData,
+  UpdateVolunteerData,
+  CreateFamilyData,
+  UpdateFamilyData,
+  CreateScheduleEventData,
+  UpdateScheduleEventData,
+  CreateFixedEventData,
+  UpdateFixedEventData,
+} from '@/types';
 
-// Create axios instance
+const MOCK_DELAY = 500;
+const AUTH_DELAY = 1000;
+
 const api = axios.create({
   baseURL: '/api',
   timeout: 10000,
@@ -18,7 +45,6 @@ const api = axios.create({
   },
 });
 
-// Request interceptor
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('auth_token');
@@ -27,315 +53,229 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Response interceptor
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('auth_token');
       localStorage.removeItem('user');
-      window.location.href = '/login';
+      window.location.href = ROUTES.LOGIN;
     }
     return Promise.reject(error);
   }
 );
 
-// Mock API Functions
+function mockResponse<T>(data: T, delay = MOCK_DELAY): Promise<ApiResponse<T>> {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve({ data }), delay);
+  });
+}
 
-// Auth
 export const authAPI = {
-  login: async (email: string, password: string) => {
+  login: (email: string, _password: string): Promise<ApiResponse<AuthResponse>> => {
     return new Promise((resolve) => {
       setTimeout(() => {
-        const user = mockUsers.find((u) => u.email === email);
-        if (user) {
-          resolve({
-            data: {
-              token: 'mock_token_' + Date.now(),
-              user: user,
-            },
-          });
-        } else {
-          resolve({
-            data: {
-              token: 'mock_token_' + Date.now(),
-              user: mockUsers[0],
-            },
-          });
-        }
-      }, 1000);
-    });
-  },
-  logout: async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { message: 'Logout successful' } });
-      }, 500);
-    });
-  },
-  forgotPassword: async (email: string) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { message: 'Password reset email sent' } });
-      }, 1000);
-    });
-  },
-};
-
-// Dashboard
-export const dashboardAPI = {
-  getStats: async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: mockDashboardStats });
-      }, 500);
-    });
-  },
-  getUpcomingEvents: async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: mockScheduleEvents.slice(0, 5) });
-      }, 500);
-    });
-  },
-};
-
-// Users
-export const usersAPI = {
-  getAll: async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: mockUsers });
-      }, 500);
-    });
-  },
-  getById: async (id: number) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const user = mockUsers.find((u) => u.id === id);
-        resolve({ data: user });
-      }, 500);
-    });
-  },
-  create: async (userData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...userData, id: Date.now() } });
-      }, 500);
-    });
-  },
-  update: async (id: number, userData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...userData, id } });
-      }, 500);
-    });
-  },
-  delete: async (id: number) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { message: 'User deleted' } });
-      }, 500);
-    });
-  },
-};
-
-// Ministries
-export const ministriesAPI = {
-  getAll: async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: mockMinistries });
-      }, 500);
-    });
-  },
-  getById: async (id: number) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const ministry = mockMinistries.find((m) => m.id === id);
-        resolve({ data: ministry });
-      }, 500);
-    });
-  },
-  create: async (ministryData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...ministryData, id: Date.now() } });
-      }, 500);
-    });
-  },
-  update: async (id: number, ministryData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...ministryData, id } });
-      }, 500);
-    });
-  },
-  delete: async (id: number) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { message: 'Ministry deleted' } });
-      }, 500);
-    });
-  },
-};
-
-// Volunteers
-export const volunteersAPI = {
-  getAll: async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: mockVolunteers });
-      }, 500);
-    });
-  },
-  getById: async (id: number) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const volunteer = mockVolunteers.find((v) => v.id === id);
-        resolve({ data: volunteer });
-      }, 500);
-    });
-  },
-  create: async (volunteerData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...volunteerData, id: Date.now() } });
-      }, 500);
-    });
-  },
-  update: async (id: number, volunteerData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...volunteerData, id } });
-      }, 500);
-    });
-  },
-  delete: async (id: number) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { message: 'Volunteer deleted' } });
-      }, 500);
-    });
-  },
-};
-
-// Families
-export const familiesAPI = {
-  getAll: async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: mockFamilies });
-      }, 500);
-    });
-  },
-  getById: async (id: number) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const family = mockFamilies.find((f) => f.id === id);
-        resolve({ data: family });
-      }, 500);
-    });
-  },
-  create: async (familyData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...familyData, id: Date.now() } });
-      }, 500);
-    });
-  },
-  update: async (id: number, familyData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...familyData, id } });
-      }, 500);
-    });
-  },
-  delete: async (id: number) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { message: 'Family deleted' } });
-      }, 500);
-    });
-  },
-};
-
-// Schedule Events
-export const scheduleAPI = {
-  getAll: async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: mockScheduleEvents });
-      }, 500);
-    });
-  },
-  getByDate: async (startDate: string, endDate: string) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const filtered = mockScheduleEvents.filter((event) => {
-          return event.date >= startDate && event.date <= endDate;
+        const user = mockUsers.find((u) => u.email === email) ?? mockUsers[0];
+        resolve({
+          data: {
+            token: `mock_token_${Date.now()}`,
+            user,
+          },
         });
-        resolve({ data: filtered });
-      }, 500);
+      }, AUTH_DELAY);
     });
   },
-  create: async (eventData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...eventData, id: Date.now() } });
-      }, 500);
-    });
+
+  logout: (): Promise<ApiResponse<MessageResponse>> => {
+    return mockResponse({ message: 'Logout successful' });
   },
-  update: async (id: number, eventData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...eventData, id } });
-      }, 500);
-    });
-  },
-  delete: async (id: number) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { message: 'Event deleted' } });
-      }, 500);
-    });
+
+  forgotPassword: (_email: string): Promise<ApiResponse<MessageResponse>> => {
+    return mockResponse({ message: 'Password reset email sent' }, AUTH_DELAY);
   },
 };
 
-// Fixed Events
+export const dashboardAPI = {
+  getStats: (): Promise<ApiResponse<DashboardStats>> => {
+    return mockResponse(mockDashboardStats);
+  },
+
+  getUpcomingEvents: (): Promise<ApiResponse<ScheduleEvent[]>> => {
+    return mockResponse(mockScheduleEvents.slice(0, 5));
+  },
+};
+
+export const usersAPI = {
+  getAll: (): Promise<ApiResponse<User[]>> => {
+    return mockResponse(mockUsers);
+  },
+
+  getById: (id: number): Promise<ApiResponse<User | undefined>> => {
+    return mockResponse(mockUsers.find((u) => u.id === id));
+  },
+
+  create: (userData: CreateUserData): Promise<ApiResponse<User>> => {
+    const newUser: User = {
+      ...userData,
+      id: Date.now(),
+      createdAt: new Date().toISOString().split('T')[0],
+    };
+    return mockResponse(newUser);
+  },
+
+  update: (id: number, userData: UpdateUserData): Promise<ApiResponse<User>> => {
+    const existingUser = mockUsers.find((u) => u.id === id);
+    const updatedUser = { ...existingUser, ...userData, id } as User;
+    return mockResponse(updatedUser);
+  },
+
+  delete: (_id: number): Promise<ApiResponse<MessageResponse>> => {
+    return mockResponse({ message: 'User deleted' });
+  },
+};
+
+export const ministriesAPI = {
+  getAll: (): Promise<ApiResponse<Ministry[]>> => {
+    return mockResponse(mockMinistries);
+  },
+
+  getById: (id: number): Promise<ApiResponse<Ministry | undefined>> => {
+    return mockResponse(mockMinistries.find((m) => m.id === id));
+  },
+
+  create: (ministryData: CreateMinistryData): Promise<ApiResponse<Ministry>> => {
+    const newMinistry: Ministry = {
+      ...ministryData,
+      id: Date.now(),
+      createdAt: new Date().toISOString().split('T')[0],
+    };
+    return mockResponse(newMinistry);
+  },
+
+  update: (id: number, ministryData: UpdateMinistryData): Promise<ApiResponse<Ministry>> => {
+    const existingMinistry = mockMinistries.find((m) => m.id === id);
+    const updatedMinistry = { ...existingMinistry, ...ministryData, id } as Ministry;
+    return mockResponse(updatedMinistry);
+  },
+
+  delete: (_id: number): Promise<ApiResponse<MessageResponse>> => {
+    return mockResponse({ message: 'Ministry deleted' });
+  },
+};
+
+export const volunteersAPI = {
+  getAll: (): Promise<ApiResponse<Volunteer[]>> => {
+    return mockResponse(mockVolunteers);
+  },
+
+  getById: (id: number): Promise<ApiResponse<Volunteer | undefined>> => {
+    return mockResponse(mockVolunteers.find((v) => v.id === id));
+  },
+
+  create: (volunteerData: CreateVolunteerData): Promise<ApiResponse<Volunteer>> => {
+    const newVolunteer: Volunteer = {
+      ...volunteerData,
+      id: Date.now(),
+      createdAt: new Date().toISOString().split('T')[0],
+    };
+    return mockResponse(newVolunteer);
+  },
+
+  update: (id: number, volunteerData: UpdateVolunteerData): Promise<ApiResponse<Volunteer>> => {
+    const existingVolunteer = mockVolunteers.find((v) => v.id === id);
+    const updatedVolunteer = { ...existingVolunteer, ...volunteerData, id } as Volunteer;
+    return mockResponse(updatedVolunteer);
+  },
+
+  delete: (_id: number): Promise<ApiResponse<MessageResponse>> => {
+    return mockResponse({ message: 'Volunteer deleted' });
+  },
+};
+
+export const familiesAPI = {
+  getAll: (): Promise<ApiResponse<Family[]>> => {
+    return mockResponse(mockFamilies);
+  },
+
+  getById: (id: number): Promise<ApiResponse<Family | undefined>> => {
+    return mockResponse(mockFamilies.find((f) => f.id === id));
+  },
+
+  create: (familyData: CreateFamilyData): Promise<ApiResponse<Family>> => {
+    const newFamily: Family = {
+      ...familyData,
+      id: Date.now(),
+      createdAt: new Date().toISOString().split('T')[0],
+    };
+    return mockResponse(newFamily);
+  },
+
+  update: (id: number, familyData: UpdateFamilyData): Promise<ApiResponse<Family>> => {
+    const existingFamily = mockFamilies.find((f) => f.id === id);
+    const updatedFamily = { ...existingFamily, ...familyData, id } as Family;
+    return mockResponse(updatedFamily);
+  },
+
+  delete: (_id: number): Promise<ApiResponse<MessageResponse>> => {
+    return mockResponse({ message: 'Family deleted' });
+  },
+};
+
+export const scheduleAPI = {
+  getAll: (): Promise<ApiResponse<ScheduleEvent[]>> => {
+    return mockResponse(mockScheduleEvents);
+  },
+
+  getByDateRange: (startDate: string, endDate: string): Promise<ApiResponse<ScheduleEvent[]>> => {
+    const filtered = mockScheduleEvents.filter(
+      (event) => event.date >= startDate && event.date <= endDate
+    );
+    return mockResponse(filtered);
+  },
+
+  create: (eventData: CreateScheduleEventData): Promise<ApiResponse<ScheduleEvent>> => {
+    const newEvent: ScheduleEvent = {
+      ...eventData,
+      id: Date.now(),
+    };
+    return mockResponse(newEvent);
+  },
+
+  update: (id: number, eventData: UpdateScheduleEventData): Promise<ApiResponse<ScheduleEvent>> => {
+    const existingEvent = mockScheduleEvents.find((e) => e.id === id);
+    const updatedEvent = { ...existingEvent, ...eventData, id } as ScheduleEvent;
+    return mockResponse(updatedEvent);
+  },
+
+  delete: (_id: number): Promise<ApiResponse<MessageResponse>> => {
+    return mockResponse({ message: 'Event deleted' });
+  },
+};
+
 export const fixedEventsAPI = {
-  getAll: async () => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: mockFixedEvents });
-      }, 500);
-    });
+  getAll: (): Promise<ApiResponse<FixedEvent[]>> => {
+    return mockResponse(mockFixedEvents);
   },
-  create: async (eventData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...eventData, id: Date.now() } });
-      }, 500);
-    });
+
+  create: (eventData: CreateFixedEventData): Promise<ApiResponse<FixedEvent>> => {
+    const newEvent: FixedEvent = {
+      ...eventData,
+      id: Date.now(),
+    };
+    return mockResponse(newEvent);
   },
-  update: async (id: number, eventData: any) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { ...eventData, id } });
-      }, 500);
-    });
+
+  update: (id: number, eventData: UpdateFixedEventData): Promise<ApiResponse<FixedEvent>> => {
+    const existingEvent = mockFixedEvents.find((e) => e.id === id);
+    const updatedEvent = { ...existingEvent, ...eventData, id } as FixedEvent;
+    return mockResponse(updatedEvent);
   },
-  delete: async (id: number) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { message: 'Fixed event deleted' } });
-      }, 500);
-    });
+
+  delete: (_id: number): Promise<ApiResponse<MessageResponse>> => {
+    return mockResponse({ message: 'Fixed event deleted' });
   },
 };
 

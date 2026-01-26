@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '@/constants/routes';
 
 export default function Index() {
   const navigate = useNavigate();
@@ -7,9 +8,9 @@ export default function Index() {
   useEffect(() => {
     const token = localStorage.getItem('auth_token');
     if (token) {
-      navigate('/dashboard');
+      navigate(ROUTES.HOME);
     } else {
-      navigate('/login');
+      navigate(ROUTES.LOGIN);
     }
   }, [navigate]);
 

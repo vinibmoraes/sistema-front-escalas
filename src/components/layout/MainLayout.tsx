@@ -3,6 +3,7 @@ import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { Outlet, Navigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import { ROUTES } from '@/constants/routes';
 
 export default function MainLayout() {
   const theme = useTheme();
@@ -19,7 +20,7 @@ export default function MainLayout() {
   }, [isMobile]);
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to={ROUTES.LOGIN} replace />;
   }
 
   const handleToggleSidebar = () => {

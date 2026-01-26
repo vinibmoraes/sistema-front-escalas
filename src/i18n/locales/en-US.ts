@@ -27,7 +27,7 @@ export default {
 
   // Page Titles
   pageTitle: {
-    dashboard: "Control Panel",
+    home: "Home",
     reports: "Analytics and Statistics",
     users: "Manage Users",
     ministries: "Manage Ministries",

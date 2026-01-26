@@ -2,7 +2,7 @@ import { Box, Drawer, List, ListItemButton, ListItemIcon, ListItemText, Tooltip,
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  Dashboard as DashboardIcon,
+  Home as HomeIcon,
   Assessment as AssessmentIcon,
   People as PeopleIcon,
   Church as ChurchIcon,
@@ -16,6 +16,7 @@ import {
   Close as CloseIcon,
 } from '@mui/icons-material';
 import CustomText from '@/components/CustomText';
+import { ROUTES } from '@/constants/routes';
 
 const DRAWER_WIDTH = 260;
 const DRAWER_COLLAPSED_WIDTH = 72;
@@ -34,15 +35,15 @@ export default function Sidebar({ collapsed, onToggle, isMobile = false, mobileO
   const { t } = useTranslation();
 
   const menuItems = [
-    { path: '/dashboard', labelKey: 'menu.inicio', icon: DashboardIcon },
-    { path: '/relatorios', labelKey: 'menu.relatorios', icon: AssessmentIcon },
-    { path: '/usuarios', labelKey: 'menu.usuarios', icon: PeopleIcon },
-    { path: '/ministerios', labelKey: 'menu.ministerios', icon: ChurchIcon },
-    { path: '/voluntarios', labelKey: 'menu.voluntarios', icon: VolunteerActivismIcon },
-    { path: '/familias', labelKey: 'menu.familias', icon: FamilyRestroomIcon },
-    { path: '/agenda', labelKey: 'menu.agenda', icon: CalendarMonthIcon },
-    { path: '/eventos-fixos', labelKey: 'menu.eventosFixos', icon: EventIcon },
-    { path: '/configuracoes', labelKey: 'menu.configuracoes', icon: SettingsIcon },
+    { path: ROUTES.HOME, labelKey: 'menu.inicio', icon: HomeIcon },
+    { path: ROUTES.REPORTS, labelKey: 'menu.relatorios', icon: AssessmentIcon },
+    { path: ROUTES.USERS, labelKey: 'menu.usuarios', icon: PeopleIcon },
+    { path: ROUTES.MINISTRIES, labelKey: 'menu.ministerios', icon: ChurchIcon },
+    { path: ROUTES.VOLUNTEERS, labelKey: 'menu.voluntarios', icon: VolunteerActivismIcon },
+    { path: ROUTES.FAMILIES, labelKey: 'menu.familias', icon: FamilyRestroomIcon },
+    { path: ROUTES.SCHEDULE, labelKey: 'menu.agenda', icon: CalendarMonthIcon },
+    { path: ROUTES.FIXED_EVENTS, labelKey: 'menu.eventosFixos', icon: EventIcon },
+    { path: ROUTES.SETTINGS, labelKey: 'menu.configuracoes', icon: SettingsIcon },
   ];
 
   const handleNavigation = (path: string) => {

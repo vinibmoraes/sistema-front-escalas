@@ -18,6 +18,7 @@ import {
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ROUTES } from '@/constants/routes';
 
 interface HeaderProps {
   onMenuClick: () => void;
@@ -26,15 +27,15 @@ interface HeaderProps {
 }
 
 const pageTitles: Record<string, { titleKey: string; breadcrumbKey: string }> = {
-  '/dashboard': { titleKey: 'pageTitle.dashboard', breadcrumbKey: 'breadcrumb.inicio' },
-  '/relatorios': { titleKey: 'pageTitle.reports', breadcrumbKey: 'breadcrumb.relatorios' },
-  '/usuarios': { titleKey: 'pageTitle.users', breadcrumbKey: 'breadcrumb.usuarios' },
-  '/ministerios': { titleKey: 'pageTitle.ministries', breadcrumbKey: 'breadcrumb.ministerios' },
-  '/voluntarios': { titleKey: 'pageTitle.volunteers', breadcrumbKey: 'breadcrumb.voluntarios' },
-  '/familias': { titleKey: 'pageTitle.families', breadcrumbKey: 'breadcrumb.familias' },
-  '/agenda': { titleKey: 'pageTitle.schedule', breadcrumbKey: 'breadcrumb.agenda' },
-  '/eventos-fixos': { titleKey: 'pageTitle.fixedEvents', breadcrumbKey: 'breadcrumb.eventosFixos' },
-  '/configuracoes': { titleKey: 'pageTitle.settings', breadcrumbKey: 'breadcrumb.configuracoes' },
+  [ROUTES.HOME]: { titleKey: 'pageTitle.home', breadcrumbKey: 'breadcrumb.inicio' },
+  [ROUTES.REPORTS]: { titleKey: 'pageTitle.reports', breadcrumbKey: 'breadcrumb.relatorios' },
+  [ROUTES.USERS]: { titleKey: 'pageTitle.users', breadcrumbKey: 'breadcrumb.usuarios' },
+  [ROUTES.MINISTRIES]: { titleKey: 'pageTitle.ministries', breadcrumbKey: 'breadcrumb.ministerios' },
+  [ROUTES.VOLUNTEERS]: { titleKey: 'pageTitle.volunteers', breadcrumbKey: 'breadcrumb.voluntarios' },
+  [ROUTES.FAMILIES]: { titleKey: 'pageTitle.families', breadcrumbKey: 'breadcrumb.familias' },
+  [ROUTES.SCHEDULE]: { titleKey: 'pageTitle.schedule', breadcrumbKey: 'breadcrumb.agenda' },
+  [ROUTES.FIXED_EVENTS]: { titleKey: 'pageTitle.fixedEvents', breadcrumbKey: 'breadcrumb.eventosFixos' },
+  [ROUTES.SETTINGS]: { titleKey: 'pageTitle.settings', breadcrumbKey: 'breadcrumb.configuracoes' },
 };
 
 export default function Header({ onMenuClick, sidebarCollapsed, isMobile = false }: HeaderProps) {
@@ -54,10 +55,10 @@ export default function Header({ onMenuClick, sidebarCollapsed, isMobile = false
   const handleLogout = () => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
-    navigate('/login');
+    navigate(ROUTES.LOGIN);
   };
 
-  const currentPage = pageTitles[location.pathname] || { titleKey: 'pageTitle.dashboard', breadcrumbKey: 'breadcrumb.inicio' };
+  const currentPage = pageTitles[location.pathname] || { titleKey: 'pageTitle.home', breadcrumbKey: 'breadcrumb.inicio' };
 
   const user = JSON.parse(localStorage.getItem('user') || '{"name":"Usuário"}');
 
@@ -107,10 +108,10 @@ export default function Header({ onMenuClick, sidebarCollapsed, isMobile = false
               <Link
                 underline="hover"
                 color="inherit"
-                href="/dashboard"
+                href={ROUTES.HOME}
                 onClick={(e) => {
                   e.preventDefault();
-                  navigate('/dashboard');
+                  navigate(ROUTES.HOME);
                 }}
                 sx={{ cursor: 'pointer' }}
               >

@@ -3,7 +3,8 @@ import { Box, Card, CardContent, TextField, Button, Typography, Link as MuiLink 
 import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { authAPI } from '@/services/api';
-import { useToast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks';
+import { ROUTES } from '@/constants/routes';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -24,7 +25,7 @@ export default function ForgotPassword() {
         description: 'Verifique sua caixa de entrada para redefinir sua senha.',
         variant: 'success',
       });
-    } catch (error) {
+    } catch {
       toast({
         title: 'Erro ao enviar e-mail',
         variant: 'destructive',
@@ -49,10 +50,10 @@ export default function ForgotPassword() {
         <CardContent sx={{ p: { xs: 3, sm: 5 } }}>
           <Box sx={{ mb: 3 }}>
             <MuiLink
-              href="/login"
+              href={ROUTES.LOGIN}
               onClick={(e) => {
                 e.preventDefault();
-                navigate('/login');
+                navigate(ROUTES.LOGIN);
               }}
               sx={{
                 display: 'flex',

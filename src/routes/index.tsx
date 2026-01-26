@@ -14,27 +14,28 @@ import Settings from '@/pages/Settings';
 import ForgotPassword from '@/pages/ForgotPassword';
 import AcceptInvite from '@/pages/AcceptInvite';
 import Index from '@/pages/Index';
+import { ROUTES } from '@/constants/routes';
 
 export function AppRoutes() {
   return (
     <Routes>
       {/* Public Routes */}
-      <Route path="/" element={<Index />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/recuperar-senha" element={<ForgotPassword />} />
-      <Route path="/aceitar-convite" element={<AcceptInvite />} />
+      <Route path={ROUTES.INDEX} element={<Index />} />
+      <Route path={ROUTES.LOGIN} element={<Login />} />
+      <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
+      <Route path={ROUTES.ACCEPT_INVITE} element={<AcceptInvite />} />
 
       {/* Protected Routes */}
       <Route element={<MainLayout />}>
-        <Route path="/dashboard" element={<Home />} />
-        <Route path="/relatorios" element={<Reports />} />
-        <Route path="/usuarios" element={<Users />} />
-        <Route path="/ministerios" element={<Ministries />} />
-        <Route path="/voluntarios" element={<Volunteers />} />
-        <Route path="/familias" element={<Families />} />
-        <Route path="/agenda" element={<Schedule />} />
-        <Route path="/eventos-fixos" element={<FixedEvents />} />
-        <Route path="/configuracoes" element={<Settings />} />
+        <Route path={ROUTES.HOME} element={<Home />} />
+        <Route path={ROUTES.REPORTS} element={<Reports />} />
+        <Route path={ROUTES.USERS} element={<Users />} />
+        <Route path={ROUTES.MINISTRIES} element={<Ministries />} />
+        <Route path={ROUTES.VOLUNTEERS} element={<Volunteers />} />
+        <Route path={ROUTES.FAMILIES} element={<Families />} />
+        <Route path={ROUTES.SCHEDULE} element={<Schedule />} />
+        <Route path={ROUTES.FIXED_EVENTS} element={<FixedEvents />} />
+        <Route path={ROUTES.SETTINGS} element={<Settings />} />
       </Route>
 
       {/* 404 */}
