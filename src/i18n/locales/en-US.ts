@@ -4,8 +4,8 @@ export default {
   viewMore: "View more",
   home: "Home",
   logout: "Logout",
-  appName: "Ministry",
-  appSubtitle: "Planner",
+  appName: "Schedule",
+  appSubtitle: "Manager",
 
   // Login Page
   gerenciadorDeEscalas: "Schedule Manager",

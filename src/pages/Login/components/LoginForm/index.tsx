@@ -26,16 +26,6 @@ const shimmer = keyframes`
   100% { background-position: 200% center; }
 `;
 
-const pulseGlow = keyframes`
-  0%, 100% { box-shadow: 0 4px 12px -2px rgba(74, 144, 226, 0.3); }
-  50% { box-shadow: 0 8px 25px -2px rgba(74, 144, 226, 0.5); }
-`;
-
-const float = keyframes`
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-`;
-
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -55,41 +45,23 @@ export default function LoginForm() {
         alignItems: 'center',
         justifyContent: 'center',
         p: { xs: 3, sm: 4 },
-        bgcolor: 'background.default',
+        background: 'transparent',
         position: 'relative',
         overflow: 'hidden',
       }}
     >
-      <Box
-        sx={{
-          position: 'absolute',
-          width: 300,
-          height: 300,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(74, 144, 226, 0.03) 0%, transparent 70%)',
-          top: -100,
-          right: -100,
-          pointerEvents: 'none',
-        }}
-      />
-      <Box
-        sx={{
-          position: 'absolute',
-          width: 200,
-          height: 200,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(74, 144, 226, 0.02) 0%, transparent 70%)',
-          bottom: -50,
-          left: -50,
-          pointerEvents: 'none',
-        }}
-      />
-
+      {/* Card com glassmorphism */}
       <Box
         sx={{
           width: '100%',
-          maxWidth: 480,
+          maxWidth: 440,
           animation: `${fadeInUp} 0.6s ease-out`,
+          background: 'rgba(255, 255, 255, 0.03)',
+          backdropFilter: 'blur(20px)',
+          borderRadius: 4,
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          p: { xs: 3, sm: 4 },
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
         }}
       >
         <Box
@@ -129,13 +101,13 @@ export default function LoginForm() {
         </Box>
 
         <Box sx={{ animation: `${slideInRight} 0.5s ease-out`, animationDelay: '0.1s', animationFillMode: 'both' }}>
-          <CustomText variant="h4" weight={700} color="text.primary" sx={{ mb: 1 }}>
+          <CustomText variant="h4" weight={700} color="white" sx={{ mb: 1 }}>
             Bem-vindo de volta
           </CustomText>
         </Box>
 
         <Box sx={{ animation: `${slideInRight} 0.5s ease-out`, animationDelay: '0.2s', animationFillMode: 'both' }}>
-          <CustomText color="text.secondary" size="1rem" sx={{ mb: 5 }}>
+          <CustomText color="rgba(255,255,255,0.7)" size="1rem" sx={{ mb: 5 }}>
             Entre com suas credenciais para acessar o sistema
           </CustomText>
         </Box>
@@ -153,13 +125,32 @@ export default function LoginForm() {
                 mb: 2.5,
                 '& .MuiOutlinedInput-root': {
                   transition: 'all 0.3s ease',
+                  color: 'white',
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  borderRadius: 2,
+                  '& fieldset': {
+                    borderColor: 'rgba(255,255,255,0.1)',
+                    borderWidth: 1,
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'rgba(100, 149, 237, 0.4)',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#4A90E2',
+                    borderWidth: 2,
+                  },
                   '&:hover': {
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 12px rgba(74, 144, 226, 0.1)',
+                    background: 'rgba(255, 255, 255, 0.05)',
                   },
                   '&.Mui-focused': {
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 20px rgba(74, 144, 226, 0.15)',
+                    background: 'rgba(100, 149, 237, 0.05)',
+                    boxShadow: '0 0 20px rgba(74, 144, 226, 0.15)',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'rgba(255,255,255,0.5)',
+                  '&.Mui-focused': {
+                    color: '#4A90E2',
                   },
                 },
               }}
@@ -178,13 +169,32 @@ export default function LoginForm() {
                 mb: 1,
                 '& .MuiOutlinedInput-root': {
                   transition: 'all 0.3s ease',
+                  color: 'white',
+                  background: 'rgba(255, 255, 255, 0.03)',
+                  borderRadius: 2,
+                  '& fieldset': {
+                    borderColor: 'rgba(255,255,255,0.1)',
+                    borderWidth: 1,
+                  },
+                  '&:hover fieldset': {
+                    borderColor: 'rgba(100, 149, 237, 0.4)',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderColor: '#4A90E2',
+                    borderWidth: 2,
+                  },
                   '&:hover': {
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 12px rgba(74, 144, 226, 0.1)',
+                    background: 'rgba(255, 255, 255, 0.05)',
                   },
                   '&.Mui-focused': {
-                    transform: 'translateY(-2px)',
-                    boxShadow: '0 4px 20px rgba(74, 144, 226, 0.15)',
+                    background: 'rgba(100, 149, 237, 0.05)',
+                    boxShadow: '0 0 20px rgba(74, 144, 226, 0.15)',
+                  },
+                },
+                '& .MuiInputLabel-root': {
+                  color: 'rgba(255,255,255,0.5)',
+                  '&.Mui-focused': {
+                    color: '#4A90E2',
                   },
                 },
               }}
@@ -235,12 +245,14 @@ export default function LoginForm() {
                 fontSize: '1rem',
                 fontWeight: 600,
                 textTransform: 'none',
-                background: 'linear-gradient(135deg, #4A90E2 0%, #3B7AC7 100%)',
+                borderRadius: 2,
+                background: 'linear-gradient(135deg, #4A90E2 0%, #5BA0F2 50%, #3B7AC7 100%)',
                 backgroundSize: '200% 200%',
-                animation: isLoading ? 'none' : `${pulseGlow} 2s ease-in-out infinite`,
+                animation: isLoading ? 'none' : `${shimmer} 3s ease infinite`,
                 position: 'relative',
                 overflow: 'hidden',
                 transition: 'all 0.3s ease',
+                boxShadow: '0 4px 15px rgba(74, 144, 226, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
                 '&::before': {
                   content: '""',
                   position: 'absolute',
@@ -248,19 +260,20 @@ export default function LoginForm() {
                   left: '-100%',
                   width: '100%',
                   height: '100%',
-                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
                   animation: `${shimmer} 2s infinite`,
                 },
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #3B7AC7 0%, #3066B0 100%)',
-                  transform: 'translateY(-3px)',
-                  boxShadow: '0 10px 30px -5px rgba(74, 144, 226, 0.5)',
+                  background: 'linear-gradient(135deg, #5BA0F2 0%, #4A90E2 50%, #3B7AC7 100%)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 8px 25px rgba(74, 144, 226, 0.5), inset 0 1px 0 rgba(255,255,255,0.2)',
                 },
                 '&:active': {
-                  transform: 'translateY(-1px)',
+                  transform: 'translateY(0)',
                 },
                 '&:disabled': {
                   background: 'rgba(74, 144, 226, 0.3)',
+                  boxShadow: 'none',
                   animation: 'none',
                 },
               }}
@@ -271,8 +284,8 @@ export default function LoginForm() {
         </form>
 
         <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.7s', animationFillMode: 'both' }}>
-          <Divider sx={{ my: 3 }}>
-            <CustomText size="0.875rem" color="text.secondary">
+          <Divider sx={{ my: 3, '&::before, &::after': { borderColor: 'rgba(255,255,255,0.15)' } }}>
+            <CustomText size="0.875rem" color="rgba(255,255,255,0.5)">
               ou
             </CustomText>
           </Divider>
@@ -288,17 +301,17 @@ export default function LoginForm() {
               fontSize: '1rem',
               fontWeight: 500,
               textTransform: 'none',
-              borderColor: 'divider',
-              color: 'text.primary',
+              borderRadius: 2,
+              borderColor: 'rgba(255,255,255,0.15)',
+              color: 'white',
+              background: 'rgba(255, 255, 255, 0.03)',
+              backdropFilter: 'blur(10px)',
               transition: 'all 0.3s ease',
               '&:hover': {
-                borderColor: '#4A90E2',
-                bgcolor: 'rgba(74, 144, 226, 0.04)',
+                borderColor: 'rgba(255,255,255,0.3)',
+                bgcolor: 'rgba(255, 255, 255, 0.08)',
                 transform: 'translateY(-2px)',
-                boxShadow: '0 4px 12px rgba(74, 144, 226, 0.1)',
-                '& .MuiSvgIcon-root': {
-                  animation: `${float} 0.5s ease-in-out`,
-                },
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
               },
             }}
           >
@@ -315,7 +328,7 @@ export default function LoginForm() {
             animationFillMode: 'both',
           }}
         >
-          <CustomText size="0.938rem" color="text.secondary">
+          <CustomText size="0.938rem" color="rgba(255,255,255,0.6)">
             Não tem uma conta?{' '}
             <MuiLink
               href={ROUTES.ACCEPT_INVITE}
@@ -342,3 +355,4 @@ export default function LoginForm() {
     </Box>
   );
 }
+

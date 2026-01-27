@@ -4,8 +4,8 @@ export default {
   viewMore: "Ver mais",
   home: "Início",
   logout: "Sair",
-  appName: "Ministério",
-  appSubtitle: "Gerenciador",
+  appName: "Gerenciador",
+  appSubtitle: "de Escalas",
 
   // Login Page
   gerenciadorDeEscalas: "Gerenciador de Escalas",

@@ -1,232 +1,306 @@
+import { useState, useEffect } from 'react';
 import { Box, keyframes } from '@mui/material';
-import { Church as ChurchIcon } from '@mui/icons-material';
+import { FormatQuote as QuoteIcon } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import CustomText from '@/components/CustomText';
-
-const float = keyframes`
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(3deg); }
-`;
-
-const floatReverse = keyframes`
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(20px) rotate(-3deg); }
-`;
-
-const pulse = keyframes`
-  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
-  50% { transform: scale(1.05); box-shadow: 0 0 40px 10px rgba(255, 255, 255, 0.2); }
-`;
-
-const glow = keyframes`
-  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 10px rgba(255,255,255,0.3)); }
-  50% { opacity: 1; filter: drop-shadow(0 0 25px rgba(255,255,255,0.6)); }
-`;
+import LoginLogo from './LoginLogo';
 
 const gradientShift = keyframes`
-  0% { background-position: 0% 50%; }
+  0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+`;
+
+const float1 = keyframes`
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(30px, -30px) scale(1.1); }
+  66% { transform: translate(-20px, 20px) scale(0.9); }
+`;
+
+const float2 = keyframes`
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33% { transform: translate(-40px, 20px) scale(1.15); }
+  66% { transform: translate(25px, -25px) scale(0.95); }
+`;
+
+const twinkle = keyframes`
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+`;
+
+const aurora = keyframes`
+  0%, 100% {
+    opacity: 0.4;
+    transform: translateX(-20%) skewX(-10deg);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateX(20%) skewX(10deg);
+  }
+`;
+
+const nebulaMove = keyframes`
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+    filter: hue-rotate(0deg);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
+    filter: hue-rotate(20deg);
+  }
+  66% {
+    transform: translate(-20px, 30px) scale(0.95);
+    filter: hue-rotate(-20deg);
+  }
 `;
 
 const fadeInUp = keyframes`
-  from { opacity: 0; transform: translateY(30px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 `;
 
-const sparkle = keyframes`
-  0%, 100% { opacity: 0; transform: scale(0); }
-  50% { opacity: 1; transform: scale(1); }
-`;
+const versiculos = [
+  {
+    texto: "Pois nem mesmo o Filho do Homem veio para ser servido, mas para servir e dar sua vida como resgate por muitos.",
+    referencia: "Marcos 10:45"
+  },
+  {
+    texto: "Vocês foram chamados para viver em liberdade. Em vez disso, sirvam uns aos outros em amor.",
+    referencia: "Gálatas 5:13"
+  },
+  {
+    texto: "Cada um deve usar o dom que recebeu para servir os outros, como bons administradores da multiforme graça de Deus.",
+    referencia: "1 Pedro 4:10"
+  },
+  {
+    texto: "Quem quiser tornar-se grande entre vocês deve servir os demais.",
+    referencia: "Mateus 20:26"
+  },
+  {
+    texto: "Tudo o que fizerem, façam de todo o coração, como para o Senhor, e não para os homens.",
+    referencia: "Colossenses 3:23"
+  },
+  {
+    texto: "Eu e minha família serviremos ao Senhor.",
+    referencia: "Josué 24:15"
+  },
+  {
+    texto: "Trabalhem de boa vontade, como se estivessem servindo ao Senhor, e não a pessoas.",
+    referencia: "Efésios 6:7"
+  },
+  {
+    texto: "Se alguém me serve, siga-me; e onde eu estiver, ali também estará o meu servo.",
+    referencia: "João 12:26"
+  }
+];
 
-const orbitSlow = keyframes`
-  from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
-  to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
-`;
+export default function LoginHero() {
+  const { t } = useTranslation();
+  const [versiculoIndex, setVersiculoIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(true);
 
-const orbitFast = keyframes`
-  from { transform: rotate(0deg) translateX(100px) rotate(0deg); }
-  to { transform: rotate(-360deg) translateX(100px) rotate(360deg); }
-`;
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsVisible(false);
+      setTimeout(() => {
+        setVersiculoIndex((prev) => (prev + 1) % versiculos.length);
+        setIsVisible(true);
+      }, 500);
+    }, 8000);
 
-function Particle({ delay, duration, size, top, left }: { delay: number; duration: number; size: number; top: string; left: string }) {
+    return () => clearInterval(interval);
+  }, []);
+
+  const versiculoAtual = versiculos[versiculoIndex];
+
+  // Gerar estrelas uma vez
+  const stars = Array.from({ length: 30 }, (_, i) => ({
+    id: i,
+    top: `${Math.random() * 100}%`,
+    left: `${Math.random() * 100}%`,
+    size: Math.random() * 2 + 1,
+    delay: `${Math.random() * 4}s`,
+    duration: `${Math.random() * 2 + 2}s`,
+  }));
+
   return (
     <Box
       sx={{
         position: 'absolute',
-        width: size,
-        height: size,
-        borderRadius: '50%',
-        background: 'rgba(255, 255, 255, 0.8)',
-        top,
-        left,
-        animation: `${sparkle} ${duration}s ease-in-out infinite`,
-        animationDelay: `${delay}s`,
-      }}
-    />
-  );
-}
-
-export default function LoginHero() {
-  const { t } = useTranslation();
-
-  const particles = [
-    { delay: 0, duration: 3, size: 4, top: '20%', left: '15%' },
-    { delay: 0.5, duration: 4, size: 3, top: '30%', left: '80%' },
-    { delay: 1, duration: 3.5, size: 5, top: '60%', left: '20%' },
-    { delay: 1.5, duration: 4.5, size: 3, top: '75%', left: '75%' },
-    { delay: 2, duration: 3, size: 4, top: '45%', left: '90%' },
-    { delay: 0.3, duration: 5, size: 2, top: '15%', left: '60%' },
-    { delay: 1.2, duration: 4, size: 3, top: '85%', left: '40%' },
-    { delay: 2.5, duration: 3.5, size: 4, top: '10%', left: '35%' },
-  ];
-
-  return (
-    <Box
-      sx={{
-        display: { xs: 'none', md: 'flex' },
-        flex: 1,
-        background: 'linear-gradient(-45deg, #4A90E2, #3066B0, #3B7AC7, #5BA0F2, #2D5AA0)',
-        backgroundSize: '400% 400%',
-        animation: `${gradientShift} 15s ease infinite`,
-        position: 'relative',
-        overflow: 'hidden',
+        inset: 0,
+        display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        p: 6,
+        background: 'linear-gradient(-45deg, #05050a, #0a0a15, #0f0f1f, #0a0a15, #05050a)',
+        backgroundSize: '400% 400%',
+        animation: `${gradientShift} 25s ease infinite`,
+        overflow: 'hidden',
       }}
     >
-      {particles.map((p, i) => (
-        <Particle key={i} {...p} />
+      {/* Aurora no topo */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: '-30%',
+          width: '160%',
+          height: '50%',
+          background: 'linear-gradient(180deg, rgba(100, 149, 237, 0.15) 0%, rgba(138, 43, 226, 0.1) 40%, transparent 100%)',
+          filter: 'blur(80px)',
+          animation: `${aurora} 20s ease-in-out infinite`,
+        }}
+      />
+
+      {/* Nebulosas */}
+      <Box
+        sx={{
+          position: 'absolute',
+          width: '60%',
+          height: '60%',
+          borderRadius: '50%',
+          background: 'radial-gradient(ellipse, rgba(138, 43, 226, 0.12) 0%, transparent 60%)',
+          top: '-20%',
+          left: '-20%',
+          animation: `${nebulaMove} 30s ease-in-out infinite`,
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          width: '50%',
+          height: '50%',
+          borderRadius: '50%',
+          background: 'radial-gradient(ellipse, rgba(59, 130, 246, 0.1) 0%, transparent 60%)',
+          bottom: '-15%',
+          right: '-15%',
+          animation: `${nebulaMove} 35s ease-in-out infinite reverse`,
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          width: '40%',
+          height: '40%',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(236, 72, 153, 0.06) 0%, transparent 60%)',
+          top: '50%',
+          right: '10%',
+          animation: `${float1} 25s ease-in-out infinite`,
+        }}
+      />
+      <Box
+        sx={{
+          position: 'absolute',
+          width: '35%',
+          height: '35%',
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(100, 149, 237, 0.08) 0%, transparent 60%)',
+          bottom: '20%',
+          left: '5%',
+          animation: `${float2} 28s ease-in-out infinite`,
+        }}
+      />
+
+      {/* Estrelas */}
+      {stars.map((star) => (
+        <Box
+          key={star.id}
+          sx={{
+            position: 'absolute',
+            width: star.size,
+            height: star.size,
+            borderRadius: '50%',
+            background: 'white',
+            top: star.top,
+            left: star.left,
+            animation: `${twinkle} ${star.duration} ease-in-out infinite`,
+            animationDelay: star.delay,
+            boxShadow: `0 0 ${star.size * 3}px ${star.size}px rgba(255, 255, 255, 0.5)`,
+          }}
+        />
       ))}
 
+      {/* Conteúdo principal - lado esquerdo */}
       <Box
         sx={{
           position: 'absolute',
-          width: 450,
-          height: 450,
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%)',
-          top: -120,
-          left: -120,
-          backdropFilter: 'blur(60px)',
-          animation: `${float} 8s ease-in-out infinite`,
-        }}
-      />
-
-      <Box
-        sx={{
-          position: 'absolute',
-          width: 350,
-          height: 350,
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.03) 100%)',
-          bottom: -80,
-          right: -80,
-          backdropFilter: 'blur(60px)',
-          animation: `${floatReverse} 10s ease-in-out infinite`,
-        }}
-      />
-
-      <Box
-        sx={{
-          position: 'absolute',
-          width: 200,
-          height: 200,
-          borderRadius: '50%',
-          background: 'rgba(255, 255, 255, 0.05)',
+          left: { xs: '50%', md: '25%' },
           top: '50%',
-          left: '50%',
           transform: 'translate(-50%, -50%)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 4,
+          zIndex: 1,
+        }}
+      >
+        <Box sx={{ animation: `${fadeInUp} 0.8s ease-out` }}>
+          <LoginLogo />
+        </Box>
+
+        <Box sx={{ textAlign: 'center', animation: `${fadeInUp} 0.8s ease-out 0.2s both` }}>
+          <CustomText
+            variant="h3"
+            weight={700}
+            color="white"
+            sx={{ textShadow: '0 4px 30px rgba(0,0,0,0.5)' }}
+          >
+            {t('appName')} {t('appSubtitle')}
+          </CustomText>
+        </Box>
+      </Box>
+
+      {/* Versículo */}
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: 32,
+          left: 32,
+          maxWidth: 400,
+          zIndex: 2,
+          display: { xs: 'none', md: 'block' },
         }}
       >
         <Box
           sx={{
-            position: 'absolute',
-            width: 8,
-            height: 8,
-            borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.6)',
-            top: '50%',
-            left: '50%',
-            animation: `${orbitSlow} 20s linear infinite`,
-          }}
-        />
-        <Box
-          sx={{
-            position: 'absolute',
-            width: 6,
-            height: 6,
-            borderRadius: '50%',
-            background: 'rgba(255, 255, 255, 0.4)',
-            top: '50%',
-            left: '50%',
-            animation: `${orbitFast} 15s linear infinite`,
-          }}
-        />
-      </Box>
-
-      <Box
-        sx={{
-          position: 'absolute',
-          width: 180,
-          height: 180,
-          borderRadius: '50%',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-          top: '20%',
-          right: '15%',
-          animation: `${float} 12s ease-in-out infinite`,
-          animationDelay: '2s',
-        }}
-      />
-
-      <Box sx={{ position: 'relative', zIndex: 1, textAlign: 'center', maxWidth: 500 }}>
-        <Box
-          sx={{
-            width: 120,
-            height: 120,
-            borderRadius: 4,
-            background: 'rgba(255, 255, 255, 0.15)',
-            backdropFilter: 'blur(20px)',
             display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            mx: 'auto',
-            mb: 4,
-            border: '2px solid rgba(255, 255, 255, 0.3)',
-            animation: `${pulse} 3s ease-in-out infinite`,
-            position: 'relative',
-            '&::before': {
-              content: '""',
-              position: 'absolute',
-              inset: -3,
-              borderRadius: 5,
-              background: 'linear-gradient(135deg, rgba(255,255,255,0.4), transparent, rgba(255,255,255,0.4))',
-              backgroundSize: '200% 200%',
-              animation: `${gradientShift} 3s ease infinite`,
-              zIndex: -1,
-            },
+            alignItems: 'flex-start',
+            gap: 1.5,
+            p: 2,
+            borderRadius: 2,
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            opacity: isVisible ? 1 : 0,
+            transform: isVisible ? 'translateY(0)' : 'translateY(8px)',
+            transition: 'all 0.5s ease-in-out',
           }}
         >
-          <ChurchIcon
+          <QuoteIcon
             sx={{
-              fontSize: 70,
-              color: 'white',
-              animation: `${glow} 2s ease-in-out infinite`,
+              fontSize: 20,
+              color: 'rgba(255, 255, 255, 0.4)',
+              transform: 'scaleX(-1)',
+              flexShrink: 0,
+              mt: 0.3,
             }}
           />
-        </Box>
-
-        <Box sx={{ animation: `${fadeInUp} 0.8s ease-out`, animationDelay: '0.2s', animationFillMode: 'both' }}>
-          <CustomText variant="h3" weight={700} color="white" sx={{ mb: 2, textShadow: '0 2px 20px rgba(0,0,0,0.2)' }}>
-            {t('appName')} {t('appSubtitle')}
-          </CustomText>
-        </Box>
-
-        <Box sx={{ animation: `${fadeInUp} 0.8s ease-out`, animationDelay: '0.4s', animationFillMode: 'both' }}>
-          <CustomText size="1.125rem" color="rgba(255, 255, 255, 0.9)" sx={{ textShadow: '0 1px 10px rgba(0,0,0,0.1)' }}>
-            Gerencie escalas, voluntários e ministérios de forma simples e eficiente
-          </CustomText>
+          <Box>
+            <CustomText
+              size="0.875rem"
+              color="rgba(255, 255, 255, 0.8)"
+              sx={{ fontStyle: 'italic', lineHeight: 1.5, mb: 0.5 }}
+            >
+              "{versiculoAtual.texto}"
+            </CustomText>
+            <CustomText
+              size="0.75rem"
+              weight={600}
+              color="rgba(255, 255, 255, 0.4)"
+            >
+              — {versiculoAtual.referencia} (NVT)
+            </CustomText>
+          </Box>
         </Box>
       </Box>
     </Box>
