@@ -1,39 +1,26 @@
-import { useRef, useEffect } from 'react';
 import { Box, keyframes } from '@mui/material';
+import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import logoIgreja from '@/assets/logo-branco-igrejadasnacoes.png';
-import terraVideo from '@/assets/terraGirandomp4.mp4';
 
 const floatLogo = keyframes`
   0%, 100% {
     transform: translateY(0) scale(1);
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 30px rgba(100, 149, 237, 0.4));
   }
   50% {
     transform: translateY(-8px) scale(1.03);
-    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 40px rgba(100, 149, 237, 0.6));
   }
 `;
 
-const atmosphereGlow = keyframes`
+const breathe = keyframes`
   0%, 100% {
-    opacity: 0.6;
     transform: scale(1);
   }
   50% {
-    opacity: 0.9;
-    transform: scale(1.05);
+    transform: scale(1.1);
   }
 `;
 
 export default function LoginLogo() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.2;
-    }
-  }, []);
-
   return (
     <Box
       sx={{
@@ -43,110 +30,56 @@ export default function LoginLogo() {
         justifyContent: 'center',
       }}
     >
-      {/* Atmosfera externa - glow suave */}
-      <Box
-        sx={{
-          position: 'absolute',
-          width: 400,
-          height: 400,
-          borderRadius: '50%',
-          background: `
-            radial-gradient(circle,
-              rgba(100, 149, 237, 0.2) 0%,
-              rgba(100, 149, 237, 0.1) 30%,
-              rgba(138, 43, 226, 0.05) 50%,
-              transparent 70%
-            )
-          `,
-          animation: `${atmosphereGlow} 5s ease-in-out infinite`,
-        }}
-      />
-
-      {/* Container do planeta */}
+      {/* Container do planeta com Lottie */}
       <Box
         sx={{
           position: 'relative',
-          width: 320,
-          height: 320,
-          overflow: 'hidden',
+          width: { xs: 400, sm: 500, md: 580 },
+          height: { xs: 400, sm: 500, md: 580 },
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          animation: `${breathe} 4s ease-in-out infinite`,
           borderRadius: '50%',
-          boxShadow: `
-            0 0 50px 15px rgba(100, 149, 237, 0.3),
-            0 0 100px 30px rgba(70, 130, 180, 0.15),
-            inset -30px -30px 60px rgba(0, 0, 0, 0.6),
-            inset 15px 15px 40px rgba(255, 255, 255, 0.03)
-          `,
+          overflow: 'hidden',
+          clipPath: 'circle(50% at 50% 50%)',
         }}
       >
-        {/* VIDEO */}
-        <Box
-          component="video"
-          ref={videoRef}
-          src={terraVideo}
-          autoPlay
-          loop
-          muted
-          playsInline
-          sx={{
-            position: 'absolute',
-            width: '140%',
-            height: '140%',
-            objectFit: 'cover',
-            zIndex: 0,
-          }}
-        />
-
-        {/* Overlay para profundidade 3D */}
+        {/* Animação Lottie do Globo */}
         <Box
           sx={{
             position: 'absolute',
-            inset: 0,
-            borderRadius: '50%',
-            background: `
-              linear-gradient(
-                135deg,
-                rgba(255,255,255,0.12) 0%,
-                transparent 35%,
-                transparent 65%,
-                rgba(0,0,0,0.5) 100%
-              )
-            `,
-            zIndex: 1,
-            pointerEvents: 'none',
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            filter: 'brightness(1.2)',
+            '& > div': {
+              width: '100% !important',
+              height: '100% !important',
+            },
           }}
-        />
+        >
+          <DotLottieReact
+            src="https://lottie.host/ef86cbff-91d3-46ad-a179-d0a094ee088c/nQ7HROzhBA.lottie"
+            loop
+            autoplay
+            speed={0.8}
+          />
+        </Box>
 
-        {/* Brilho na borda (simulando luz do sol) */}
-        <Box
-          sx={{
-            position: 'absolute',
-            inset: 0,
-            borderRadius: '50%',
-            background: `
-              radial-gradient(
-                ellipse 50% 50% at 20% 20%,
-                rgba(255, 255, 255, 0.15) 0%,
-                transparent 50%
-              )
-            `,
-            zIndex: 2,
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* LOGO */}
+        {/* LOGO centralizado com sombra */}
         <Box
           component="img"
           src={logoIgreja}
           alt="Logo Igreja das Nações"
           sx={{
-            width: 140,
+            width: { xs: 80, sm: 95, md: 110 },
             height: 'auto',
             zIndex: 3,
             animation: `${floatLogo} 4s ease-in-out infinite`,
+            filter: 'drop-shadow(0 2px 6px rgba(0, 0, 0, 0.7))',
           }}
         />
       </Box>

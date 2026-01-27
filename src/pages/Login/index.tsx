@@ -8,25 +8,32 @@ export default function Login() {
       sx={{
         minHeight: '100vh',
         display: 'flex',
-        position: 'relative',
-        overflow: 'hidden',
+        flexDirection: { xs: 'column', md: 'row' },
+        background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
       }}
     >
-      {/* Fundo animado ocupando tudo */}
-      <LoginHero />
-
-      {/* Formulário por cima */}
+      {/* Lado esquerdo - Hero com planeta */}
       <Box
         sx={{
-          position: { xs: 'relative', md: 'absolute' },
-          right: { md: 0 },
-          top: { md: 0 },
-          bottom: { md: 0 },
           width: { xs: '100%', md: '50%' },
+          minHeight: { xs: '40vh', md: '100vh' },
+          position: 'relative',
+          overflow: 'hidden',
+          borderTopRightRadius: { xs: 0, md: 40 },
+          borderBottomRightRadius: { xs: 0, md: 40 },
+        }}
+      >
+        <LoginHero />
+      </Box>
+
+      {/* Lado direito - Formulário com fundo branco */}
+      <Box
+        sx={{
+          width: { xs: '100%', md: '50%' },
+          minHeight: { xs: '60vh', md: '100vh' },
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          zIndex: 10,
         }}
       >
         <LoginForm />

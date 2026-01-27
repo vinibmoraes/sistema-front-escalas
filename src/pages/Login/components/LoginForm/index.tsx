@@ -1,29 +1,19 @@
 import { useState } from 'react';
 import { Box, TextField, Button, Divider, Link as MuiLink, keyframes } from '@mui/material';
-import { Google as GoogleIcon, Church as ChurchIcon } from '@mui/icons-material';
+import { Google as GoogleIcon } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import CustomText from '@/components/CustomText';
 import { useAuth } from '@/hooks';
 import { ROUTES } from '@/constants/routes';
 
 const fadeInUp = keyframes`
-  from { opacity: 0; transform: translateY(40px); }
+  from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 `;
 
 const slideInRight = keyframes`
-  from { opacity: 0; transform: translateX(-30px); }
+  from { opacity: 0; transform: translateX(-20px); }
   to { opacity: 1; transform: translateX(0); }
-`;
-
-const bounce = keyframes`
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-`;
-
-const shimmer = keyframes`
-  0% { background-position: -200% center; }
-  100% { background-position: 200% center; }
 `;
 
 export default function LoginForm() {
@@ -40,319 +30,212 @@ export default function LoginForm() {
   return (
     <Box
       sx={{
-        flex: 1,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        width: '100%',
+        maxWidth: 420,
         p: { xs: 3, sm: 4 },
-        background: 'transparent',
-        position: 'relative',
-        overflow: 'hidden',
       }}
     >
-      {/* Card com glassmorphism */}
-      <Box
-        sx={{
-          width: '100%',
-          maxWidth: 440,
-          animation: `${fadeInUp} 0.6s ease-out`,
-          background: 'rgba(255, 255, 255, 0.03)',
-          backdropFilter: 'blur(20px)',
-          borderRadius: 4,
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          p: { xs: 3, sm: 4 },
-          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05)',
-        }}
-      >
-        <Box
-          sx={{
-            display: { xs: 'flex', md: 'none' },
-            justifyContent: 'center',
-            mb: 4,
-            animation: `${bounce} 2s ease-in-out infinite`,
-          }}
-        >
-          <Box
-            sx={{
-              width: 64,
-              height: 64,
-              borderRadius: 3,
-              background: 'linear-gradient(135deg, #4A90E2 0%, #3B7AC7 100%)',
-              boxShadow: '0 8px 20px -4px rgba(74, 144, 226, 0.4)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              position: 'relative',
-              '&::after': {
-                content: '""',
-                position: 'absolute',
-                inset: -2,
-                borderRadius: 4,
-                background: 'linear-gradient(135deg, #4A90E2, #3B7AC7, #4A90E2)',
-                backgroundSize: '200% 200%',
-                animation: `${shimmer} 3s linear infinite`,
-                zIndex: -1,
-                opacity: 0.5,
-              },
-            }}
-          >
-            <ChurchIcon sx={{ fontSize: 36, color: 'white' }} />
-          </Box>
-        </Box>
+      <Box sx={{ animation: `${slideInRight} 0.5s ease-out` }}>
+        <CustomText variant="h4" weight={700} color="#1a2a4a" sx={{ mb: 1 }}>
+          Bem-vindo
+        </CustomText>
+      </Box>
 
-        <Box sx={{ animation: `${slideInRight} 0.5s ease-out`, animationDelay: '0.1s', animationFillMode: 'both' }}>
-          <CustomText variant="h4" weight={700} color="white" sx={{ mb: 1 }}>
-            Bem-vindo de volta
-          </CustomText>
-        </Box>
+      <Box sx={{ animation: `${slideInRight} 0.5s ease-out`, animationDelay: '0.1s', animationFillMode: 'both' }}>
+        <CustomText color="#64748b" size="1rem" sx={{ mb: 4 }}>
+          Entre com suas credenciais para acessar o sistema
+        </CustomText>
+      </Box>
 
-        <Box sx={{ animation: `${slideInRight} 0.5s ease-out`, animationDelay: '0.2s', animationFillMode: 'both' }}>
-          <CustomText color="rgba(255,255,255,0.7)" size="1rem" sx={{ mb: 5 }}>
-            Entre com suas credenciais para acessar o sistema
-          </CustomText>
-        </Box>
-
-        <form onSubmit={handleSubmit}>
-          <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.3s', animationFillMode: 'both' }}>
-            <TextField
-              fullWidth
-              label="E-mail"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              sx={{
-                mb: 2.5,
-                '& .MuiOutlinedInput-root': {
-                  transition: 'all 0.3s ease',
-                  color: 'white',
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  borderRadius: 2,
-                  '& fieldset': {
-                    borderColor: 'rgba(255,255,255,0.1)',
-                    borderWidth: 1,
-                  },
-                  '&:hover fieldset': {
-                    borderColor: 'rgba(100, 149, 237, 0.4)',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#4A90E2',
-                    borderWidth: 2,
-                  },
-                  '&:hover': {
-                    background: 'rgba(255, 255, 255, 0.05)',
-                  },
-                  '&.Mui-focused': {
-                    background: 'rgba(100, 149, 237, 0.05)',
-                    boxShadow: '0 0 20px rgba(74, 144, 226, 0.15)',
-                  },
-                },
-                '& .MuiInputLabel-root': {
-                  color: 'rgba(255,255,255,0.5)',
-                  '&.Mui-focused': {
-                    color: '#4A90E2',
-                  },
-                },
-              }}
-            />
-          </Box>
-
-          <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.4s', animationFillMode: 'both' }}>
-            <TextField
-              fullWidth
-              label="Senha"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              sx={{
-                mb: 1,
-                '& .MuiOutlinedInput-root': {
-                  transition: 'all 0.3s ease',
-                  color: 'white',
-                  background: 'rgba(255, 255, 255, 0.03)',
-                  borderRadius: 2,
-                  '& fieldset': {
-                    borderColor: 'rgba(255,255,255,0.1)',
-                    borderWidth: 1,
-                  },
-                  '&:hover fieldset': {
-                    borderColor: 'rgba(100, 149, 237, 0.4)',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#4A90E2',
-                    borderWidth: 2,
-                  },
-                  '&:hover': {
-                    background: 'rgba(255, 255, 255, 0.05)',
-                  },
-                  '&.Mui-focused': {
-                    background: 'rgba(100, 149, 237, 0.05)',
-                    boxShadow: '0 0 20px rgba(74, 144, 226, 0.15)',
-                  },
-                },
-                '& .MuiInputLabel-root': {
-                  color: 'rgba(255,255,255,0.5)',
-                  '&.Mui-focused': {
-                    color: '#4A90E2',
-                  },
-                },
-              }}
-            />
-          </Box>
-
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              mb: 3,
-              animation: `${fadeInUp} 0.5s ease-out`,
-              animationDelay: '0.5s',
-              animationFillMode: 'both',
-            }}
-          >
-            <MuiLink
-              href={ROUTES.FORGOT_PASSWORD}
-              onClick={(e) => {
-                e.preventDefault();
-                navigate(ROUTES.FORGOT_PASSWORD);
-              }}
-              sx={{
-                fontSize: '0.875rem',
-                color: '#4A90E2',
-                textDecoration: 'none',
-                fontWeight: 500,
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  textDecoration: 'underline',
-                  transform: 'translateX(3px)',
-                },
-              }}
-            >
-              Esqueceu a senha?
-            </MuiLink>
-          </Box>
-
-          <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.6s', animationFillMode: 'both' }}>
-            <Button
-              fullWidth
-              type="submit"
-              variant="contained"
-              disabled={isLoading}
-              sx={{
-                py: 1.75,
-                mb: 2.5,
-                fontSize: '1rem',
-                fontWeight: 600,
-                textTransform: 'none',
-                borderRadius: 2,
-                background: 'linear-gradient(135deg, #4A90E2 0%, #5BA0F2 50%, #3B7AC7 100%)',
-                backgroundSize: '200% 200%',
-                animation: isLoading ? 'none' : `${shimmer} 3s ease infinite`,
-                position: 'relative',
-                overflow: 'hidden',
-                transition: 'all 0.3s ease',
-                boxShadow: '0 4px 15px rgba(74, 144, 226, 0.4), inset 0 1px 0 rgba(255,255,255,0.2)',
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  top: 0,
-                  left: '-100%',
-                  width: '100%',
-                  height: '100%',
-                  background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)',
-                  animation: `${shimmer} 2s infinite`,
-                },
-                '&:hover': {
-                  background: 'linear-gradient(135deg, #5BA0F2 0%, #4A90E2 50%, #3B7AC7 100%)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 8px 25px rgba(74, 144, 226, 0.5), inset 0 1px 0 rgba(255,255,255,0.2)',
-                },
-                '&:active': {
-                  transform: 'translateY(0)',
-                },
-                '&:disabled': {
-                  background: 'rgba(74, 144, 226, 0.3)',
-                  boxShadow: 'none',
-                  animation: 'none',
-                },
-              }}
-            >
-              {isLoading ? 'Entrando...' : 'Entrar'}
-            </Button>
-          </Box>
-        </form>
-
-        <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.7s', animationFillMode: 'both' }}>
-          <Divider sx={{ my: 3, '&::before, &::after': { borderColor: 'rgba(255,255,255,0.15)' } }}>
-            <CustomText size="0.875rem" color="rgba(255,255,255,0.5)">
-              ou
-            </CustomText>
-          </Divider>
-        </Box>
-
-        <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.8s', animationFillMode: 'both' }}>
-          <Button
+      <form onSubmit={handleSubmit}>
+        <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.2s', animationFillMode: 'both' }}>
+          <TextField
             fullWidth
-            variant="outlined"
-            startIcon={<GoogleIcon />}
+            label="E-mail"
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
             sx={{
-              py: 1.75,
-              fontSize: '1rem',
-              fontWeight: 500,
-              textTransform: 'none',
-              borderRadius: 2,
-              borderColor: 'rgba(255,255,255,0.15)',
-              color: 'white',
-              background: 'rgba(255, 255, 255, 0.03)',
-              backdropFilter: 'blur(10px)',
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                borderColor: 'rgba(255,255,255,0.3)',
-                bgcolor: 'rgba(255, 255, 255, 0.08)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
+              mb: 2.5,
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 2,
+                backgroundColor: '#f8fafc',
+                '& fieldset': {
+                  borderColor: '#e2e8f0',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#4A90E2',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#4A90E2',
+                  borderWidth: 2,
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: '#64748b',
+                '&.Mui-focused': {
+                  color: '#4A90E2',
+                },
               },
             }}
-          >
-            Continuar com Google
-          </Button>
+          />
+        </Box>
+
+        <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.3s', animationFillMode: 'both' }}>
+          <TextField
+            fullWidth
+            label="Senha"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            sx={{
+              mb: 1,
+              '& .MuiOutlinedInput-root': {
+                borderRadius: 2,
+                backgroundColor: '#f8fafc',
+                '& fieldset': {
+                  borderColor: '#e2e8f0',
+                },
+                '&:hover fieldset': {
+                  borderColor: '#4A90E2',
+                },
+                '&.Mui-focused fieldset': {
+                  borderColor: '#4A90E2',
+                  borderWidth: 2,
+                },
+              },
+              '& .MuiInputLabel-root': {
+                color: '#64748b',
+                '&.Mui-focused': {
+                  color: '#4A90E2',
+                },
+              },
+            }}
+          />
         </Box>
 
         <Box
           sx={{
-            textAlign: 'center',
-            mt: 4,
+            display: 'flex',
+            justifyContent: 'flex-end',
+            mb: 3,
             animation: `${fadeInUp} 0.5s ease-out`,
-            animationDelay: '0.9s',
+            animationDelay: '0.4s',
             animationFillMode: 'both',
           }}
         >
-          <CustomText size="0.938rem" color="rgba(255,255,255,0.6)">
-            Não tem uma conta?{' '}
-            <MuiLink
-              href={ROUTES.ACCEPT_INVITE}
-              onClick={(e) => {
-                e.preventDefault();
-                navigate(ROUTES.ACCEPT_INVITE);
-              }}
-              sx={{
-                color: '#4A90E2',
-                textDecoration: 'none',
-                fontWeight: 600,
-                transition: 'all 0.2s ease',
-                '&:hover': {
-                  textDecoration: 'underline',
-                  color: '#3066B0',
-                },
-              }}
-            >
-              Solicitar acesso
-            </MuiLink>
-          </CustomText>
+          <MuiLink
+            href={ROUTES.FORGOT_PASSWORD}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(ROUTES.FORGOT_PASSWORD);
+            }}
+            sx={{
+              fontSize: '0.875rem',
+              color: '#4A90E2',
+              textDecoration: 'none',
+              fontWeight: 500,
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            }}
+          >
+            Esqueceu a senha?
+          </MuiLink>
         </Box>
+
+        <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.5s', animationFillMode: 'both' }}>
+          <Button
+            fullWidth
+            type="submit"
+            variant="contained"
+            disabled={isLoading}
+            sx={{
+              py: 1.5,
+              mb: 2.5,
+              fontSize: '1rem',
+              fontWeight: 600,
+              textTransform: 'none',
+              borderRadius: 2,
+              background: 'linear-gradient(135deg, #4A90E2 0%, #3B7AC7 100%)',
+              boxShadow: '0 4px 15px rgba(74, 144, 226, 0.3)',
+              '&:hover': {
+                background: 'linear-gradient(135deg, #5BA0F2 0%, #4A90E2 100%)',
+                boxShadow: '0 6px 20px rgba(74, 144, 226, 0.4)',
+              },
+              '&:disabled': {
+                background: '#cbd5e1',
+              },
+            }}
+          >
+            {isLoading ? 'Entrando...' : 'Entrar'}
+          </Button>
+        </Box>
+      </form>
+
+      <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.6s', animationFillMode: 'both' }}>
+        <Divider sx={{ my: 3, '&::before, &::after': { borderColor: '#e2e8f0' } }}>
+          <CustomText size="0.875rem" color="#94a3b8">
+            ou
+          </CustomText>
+        </Divider>
+      </Box>
+
+      <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.7s', animationFillMode: 'both' }}>
+        <Button
+          fullWidth
+          variant="outlined"
+          startIcon={<GoogleIcon />}
+          sx={{
+            py: 1.5,
+            fontSize: '1rem',
+            fontWeight: 500,
+            textTransform: 'none',
+            borderRadius: 2,
+            borderColor: '#e2e8f0',
+            color: '#475569',
+            '&:hover': {
+              borderColor: '#cbd5e1',
+              backgroundColor: '#f8fafc',
+            },
+          }}
+        >
+          Continuar com Google
+        </Button>
+      </Box>
+
+      <Box
+        sx={{
+          textAlign: 'center',
+          mt: 4,
+          animation: `${fadeInUp} 0.5s ease-out`,
+          animationDelay: '0.8s',
+          animationFillMode: 'both',
+        }}
+      >
+        <CustomText size="0.938rem" color="#64748b">
+          Não tem uma conta?{' '}
+          <MuiLink
+            href={ROUTES.ACCEPT_INVITE}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(ROUTES.ACCEPT_INVITE);
+            }}
+            sx={{
+              color: '#4A90E2',
+              textDecoration: 'none',
+              fontWeight: 600,
+              '&:hover': {
+                textDecoration: 'underline',
+              },
+            }}
+          >
+            Solicitar acesso
+          </MuiLink>
+        </CustomText>
       </Box>
     </Box>
   );
 }
-

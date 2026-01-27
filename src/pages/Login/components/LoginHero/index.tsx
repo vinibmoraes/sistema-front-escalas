@@ -112,8 +112,8 @@ export default function LoginHero() {
 
   const versiculoAtual = versiculos[versiculoIndex];
 
-  // Gerar estrelas uma vez
-  const stars = Array.from({ length: 30 }, (_, i) => ({
+  // Gerar estrelas
+  const stars = Array.from({ length: 50 }, (_, i) => ({
     id: i,
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
@@ -131,7 +131,7 @@ export default function LoginHero() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'linear-gradient(-45deg, #05050a, #0a0a15, #0f0f1f, #0a0a15, #05050a)',
+        background: 'linear-gradient(180deg, #070d15 0%, #0f1a2a 50%, #162540 100%)',
         backgroundSize: '400% 400%',
         animation: `${gradientShift} 25s ease infinite`,
         overflow: 'hidden',
@@ -215,38 +215,26 @@ export default function LoginHero() {
             left: star.left,
             animation: `${twinkle} ${star.duration} ease-in-out infinite`,
             animationDelay: star.delay,
-            boxShadow: `0 0 ${star.size * 3}px ${star.size}px rgba(255, 255, 255, 0.5)`,
+            boxShadow: `0 0 ${star.size * 2}px ${star.size}px rgba(255, 255, 255, 0.4)`,
           }}
         />
       ))}
 
-      {/* Conteúdo principal - lado esquerdo */}
+      {/* Conteúdo principal - centralizado */}
       <Box
         sx={{
           position: 'absolute',
-          left: { xs: '50%', md: '25%' },
+          left: '50%',
           top: '50%',
           transform: 'translate(-50%, -50%)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          gap: 4,
           zIndex: 1,
         }}
       >
         <Box sx={{ animation: `${fadeInUp} 0.8s ease-out` }}>
           <LoginLogo />
-        </Box>
-
-        <Box sx={{ textAlign: 'center', animation: `${fadeInUp} 0.8s ease-out 0.2s both` }}>
-          <CustomText
-            variant="h3"
-            weight={700}
-            color="white"
-            sx={{ textShadow: '0 4px 30px rgba(0,0,0,0.5)' }}
-          >
-            {t('appName')} {t('appSubtitle')}
-          </CustomText>
         </Box>
       </Box>
 
