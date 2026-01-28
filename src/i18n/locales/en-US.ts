@@ -8,9 +8,26 @@ export default {
   appSubtitle: "Manager",
 
   // Login Page
-  gerenciadorDeEscalas: "Schedule Manager",
-  recuperarSenha: "Recover password",
-  permanecerConectado: "Stay connected",
+  login: {
+    title: "Schedule Manager",
+    subtitle: "Enter your credentials to access the system",
+    email: "Email",
+    password: "Password",
+    forgotPassword: "Forgot my password",
+    rememberMe: "Stay logged in",
+    submit: "Sign in",
+    submitting: "Signing in...",
+    or: "or",
+    continueWithGoogle: "Continue with Google",
+    noAccount: "Don't have an account?",
+    requestAccess: "Request access",
+    validation: {
+      emailRequired: "Email is required",
+      invalidEmail: "Invalid email",
+      passwordRequired: "Password is required",
+      passwordMin: "Password must be at least 6 characters"
+    }
+  },
 
   // Sidebar Menu
   menu: {

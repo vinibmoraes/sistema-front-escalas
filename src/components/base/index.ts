@@ -15,3 +15,6 @@ export { default as IconBox } from './IconBox';
 export type { IconBoxSize, IconBoxVariant } from './IconBox';
 
 export { default as CardWithHeader } from './CardWithHeader';
+
+export { default as Skeleton } from './Skeleton';
+export type { SkeletonProps } from './Skeleton';

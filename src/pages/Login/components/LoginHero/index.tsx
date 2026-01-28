@@ -97,6 +97,16 @@ export default function LoginHero() {
   const { t } = useTranslation();
   const [versiculoIndex, setVersiculoIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    // Delay para o efeito de aparecimento
+    const loadTimer = setTimeout(() => {
+      setIsLoaded(true);
+    }, 100);
+
+    return () => clearTimeout(loadTimer);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -135,6 +145,9 @@ export default function LoginHero() {
         backgroundSize: '400% 400%',
         animation: `${gradientShift} 25s ease infinite`,
         overflow: 'hidden',
+        opacity: isLoaded ? 1 : 0,
+        transform: isLoaded ? 'scale(1)' : 'scale(1.15)',
+        transition: 'opacity 2.5s ease-out, transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
       }}
     >
       {/* Aurora no topo */}

@@ -1,4 +1,5 @@
-import { Card, CardContent, Box, CardProps } from '@mui/material';
+import { Card, CardContent, Box } from '@mui/material';
+import type { CardProps } from '@mui/material/Card';
 import { ReactNode } from 'react';
 import CustomText from '@/components/CustomText';
 

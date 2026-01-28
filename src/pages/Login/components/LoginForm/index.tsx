@@ -1,10 +1,25 @@
 import { useState } from 'react';
-import { Box, TextField, Button, Divider, Link as MuiLink, keyframes } from '@mui/material';
-import { Google as GoogleIcon } from '@mui/icons-material';
+import {
+  Box,
+  TextField,
+  Button,
+  Divider,
+  Link as MuiLink,
+  keyframes,
+  FormControlLabel,
+  Checkbox,
+  InputAdornment,
+  IconButton,
+} from '@mui/material';
+import { Google as GoogleIcon, Visibility, VisibilityOff } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 import CustomText from '@/components/CustomText';
 import { useAuth } from '@/hooks';
 import { ROUTES } from '@/constants/routes';
+import { loginSchema, type LoginFormData } from '../../Validations';
 
 const fadeInUp = keyframes`
   from { opacity: 0; transform: translateY(30px); }
@@ -17,14 +32,27 @@ const slideInRight = keyframes`
 `;
 
 export default function LoginForm() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const { login, isLoading } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await login(email, password);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: yupResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      rememberMe: false,
+    },
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
+    await login(data.email, data.password);
   };
 
   return (
@@ -37,45 +65,49 @@ export default function LoginForm() {
     >
       <Box sx={{ animation: `${slideInRight} 0.5s ease-out` }}>
         <CustomText variant="h4" weight={700} color="#1a2a4a" sx={{ mb: 1 }}>
-          Bem-vindo
+          {t('login.title')}
         </CustomText>
       </Box>
 
       <Box sx={{ animation: `${slideInRight} 0.5s ease-out`, animationDelay: '0.1s', animationFillMode: 'both' }}>
         <CustomText color="#64748b" size="1rem" sx={{ mb: 4 }}>
-          Entre com suas credenciais para acessar o sistema
+          {t('login.subtitle')}
         </CustomText>
       </Box>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.2s', animationFillMode: 'both' }}>
           <TextField
             fullWidth
-            label="E-mail"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            label={t('login.email')}
+            type="text"
+            autoComplete="email"
+            {...register('email')}
+            error={!!errors.email}
+            helperText={errors.email?.message ? t(errors.email.message) : ''}
             sx={{
               mb: 2.5,
               '& .MuiOutlinedInput-root': {
                 borderRadius: 2,
                 backgroundColor: '#f8fafc',
+                '& input': {
+                  color: '#1a2a4a',
+                },
                 '& fieldset': {
-                  borderColor: '#e2e8f0',
+                  borderColor: errors.email ? '#ef4444' : '#e2e8f0',
                 },
                 '&:hover fieldset': {
-                  borderColor: '#4A90E2',
+                  borderColor: errors.email ? '#ef4444' : '#4A90E2',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#4A90E2',
+                  borderColor: errors.email ? '#ef4444' : '#4A90E2',
                   borderWidth: 2,
                 },
               },
               '& .MuiInputLabel-root': {
-                color: '#64748b',
+                color: errors.email ? '#ef4444' : '#64748b',
                 '&.Mui-focused': {
-                  color: '#4A90E2',
+                  color: errors.email ? '#ef4444' : '#4A90E2',
                 },
               },
             }}
@@ -85,31 +117,48 @@ export default function LoginForm() {
         <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.3s', animationFillMode: 'both' }}>
           <TextField
             fullWidth
-            label="Senha"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
+            label={t('login.password')}
+            type={showPassword ? 'text' : 'password'}
+            {...register('password')}
+            error={!!errors.password}
+            helperText={errors.password?.message ? t(errors.password.message) : ''}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="end"
+                    sx={{ color: '#64748b' }}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
             sx={{
               mb: 1,
               '& .MuiOutlinedInput-root': {
                 borderRadius: 2,
                 backgroundColor: '#f8fafc',
+                '& input': {
+                  color: '#1a2a4a',
+                },
                 '& fieldset': {
-                  borderColor: '#e2e8f0',
+                  borderColor: errors.password ? '#ef4444' : '#e2e8f0',
                 },
                 '&:hover fieldset': {
-                  borderColor: '#4A90E2',
+                  borderColor: errors.password ? '#ef4444' : '#4A90E2',
                 },
                 '&.Mui-focused fieldset': {
-                  borderColor: '#4A90E2',
+                  borderColor: errors.password ? '#ef4444' : '#4A90E2',
                   borderWidth: 2,
                 },
               },
               '& .MuiInputLabel-root': {
-                color: '#64748b',
+                color: errors.password ? '#ef4444' : '#64748b',
                 '&.Mui-focused': {
-                  color: '#4A90E2',
+                  color: errors.password ? '#ef4444' : '#4A90E2',
                 },
               },
             }}
@@ -119,13 +168,39 @@ export default function LoginForm() {
         <Box
           sx={{
             display: 'flex',
-            justifyContent: 'flex-end',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             mb: 3,
             animation: `${fadeInUp} 0.5s ease-out`,
             animationDelay: '0.4s',
             animationFillMode: 'both',
           }}
         >
+          <Controller
+            name="rememberMe"
+            control={control}
+            render={({ field }) => (
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    {...field}
+                    checked={field.value}
+                    sx={{
+                      color: '#cbd5e1',
+                      '&.Mui-checked': {
+                        color: '#4A90E2',
+                      },
+                    }}
+                  />
+                }
+                label={
+                  <CustomText size="0.875rem" color="#64748b">
+                    {t('login.rememberMe')}
+                  </CustomText>
+                }
+              />
+            )}
+          />
           <MuiLink
             href={ROUTES.FORGOT_PASSWORD}
             onClick={(e) => {
@@ -142,7 +217,7 @@ export default function LoginForm() {
               },
             }}
           >
-            Esqueceu a senha?
+            {t('login.forgotPassword')}
           </MuiLink>
         </Box>
 
@@ -170,7 +245,7 @@ export default function LoginForm() {
               },
             }}
           >
-            {isLoading ? 'Entrando...' : 'Entrar'}
+            {isLoading ? t('login.submitting') : t('login.submit')}
           </Button>
         </Box>
       </form>
@@ -178,7 +253,7 @@ export default function LoginForm() {
       <Box sx={{ animation: `${fadeInUp} 0.5s ease-out`, animationDelay: '0.6s', animationFillMode: 'both' }}>
         <Divider sx={{ my: 3, '&::before, &::after': { borderColor: '#e2e8f0' } }}>
           <CustomText size="0.875rem" color="#94a3b8">
-            ou
+            {t('login.or')}
           </CustomText>
         </Divider>
       </Box>
@@ -202,7 +277,7 @@ export default function LoginForm() {
             },
           }}
         >
-          Continuar com Google
+          {t('login.continueWithGoogle')}
         </Button>
       </Box>
 
@@ -216,7 +291,7 @@ export default function LoginForm() {
         }}
       >
         <CustomText size="0.938rem" color="#64748b">
-          Não tem uma conta?{' '}
+          {t('login.noAccount')}{' '}
           <MuiLink
             href={ROUTES.ACCEPT_INVITE}
             onClick={(e) => {
@@ -232,7 +307,7 @@ export default function LoginForm() {
               },
             }}
           >
-            Solicitar acesso
+            {t('login.requestAccess')}
           </MuiLink>
         </CustomText>
       </Box>

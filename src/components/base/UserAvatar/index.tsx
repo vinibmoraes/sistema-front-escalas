@@ -1,4 +1,5 @@
-import { Avatar, Box, AvatarProps } from '@mui/material';
+import { Avatar, Box } from '@mui/material';
+import type { AvatarProps } from '@mui/material/Avatar';
 import CustomText from '@/components/CustomText';
 import { colors } from '@/themes/colors';
 

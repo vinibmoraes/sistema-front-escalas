@@ -1,4 +1,5 @@
-import { Chip, ChipProps } from '@mui/material';
+import { Chip } from '@mui/material';
+import type { ChipProps } from '@mui/material/Chip';
 import { colors } from '@/themes/colors';
 
 export type StatusType = 'active' | 'inactive' | 'pending' | 'approved' | 'rejected';

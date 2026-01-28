@@ -8,9 +8,26 @@ export default {
   appSubtitle: "de Escalas",
 
   // Login Page
-  gerenciadorDeEscalas: "Gerenciador de Escalas",
-  recuperarSenha: "Recuperar senha",
-  permanecerConectado: "Permanecer conectado",
+  login: {
+    title: "Gerenciador de Escalas",
+    subtitle: "Entre com suas credenciais para acessar o sistema",
+    email: "E-mail",
+    password: "Senha",
+    forgotPassword: "Esqueci minha senha",
+    rememberMe: "Permanecer conectado",
+    submit: "Entrar",
+    submitting: "Entrando...",
+    or: "ou",
+    continueWithGoogle: "Continuar com Google",
+    noAccount: "Não tem uma conta?",
+    requestAccess: "Solicitar acesso",
+    validation: {
+      emailRequired: "E-mail é obrigatório",
+      invalidEmail: "E-mail inválido",
+      passwordRequired: "Senha é obrigatória",
+      passwordMin: "Senha deve ter no mínimo 6 caracteres"
+    }
+  },
 
   // Sidebar Menu
   menu: {
