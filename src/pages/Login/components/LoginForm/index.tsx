@@ -281,36 +281,6 @@ export default function LoginForm() {
         </Button>
       </Box>
 
-      <Box
-        sx={{
-          textAlign: 'center',
-          mt: 4,
-          animation: `${fadeInUp} 0.5s ease-out`,
-          animationDelay: '0.8s',
-          animationFillMode: 'both',
-        }}
-      >
-        <CustomText size="0.938rem" color="#64748b">
-          {t('login.noAccount')}{' '}
-          <MuiLink
-            href={ROUTES.ACCEPT_INVITE}
-            onClick={(e) => {
-              e.preventDefault();
-              navigate(ROUTES.ACCEPT_INVITE);
-            }}
-            sx={{
-              color: '#4A90E2',
-              textDecoration: 'none',
-              fontWeight: 600,
-              '&:hover': {
-                textDecoration: 'underline',
-              },
-            }}
-          >
-            {t('login.requestAccess')}
-          </MuiLink>
-        </CustomText>
-      </Box>
     </Box>
   );
 }

@@ -1,5 +1,6 @@
 import { Box, keyframes } from '@mui/material';
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
+import { useTranslation } from 'react-i18next';
 import logoIgreja from '@/assets/logo-branco-igrejadasnacoes.png';
 
 const floatLogo = keyframes`
@@ -11,16 +12,9 @@ const floatLogo = keyframes`
   }
 `;
 
-const breathe = keyframes`
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-`;
-
 export default function LoginLogo() {
+  const { t } = useTranslation();
+
   return (
     <Box
       sx={{
@@ -39,7 +33,6 @@ export default function LoginLogo() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          animation: `${breathe} 4s ease-in-out infinite`,
           borderRadius: '50%',
           overflow: 'hidden',
           clipPath: 'circle(50% at 50% 50%)',
@@ -65,7 +58,7 @@ export default function LoginLogo() {
             src="https://lottie.host/ef86cbff-91d3-46ad-a179-d0a094ee088c/nQ7HROzhBA.lottie"
             loop
             autoplay
-            speed={0.8}
+            speed={0.5}
           />
         </Box>
 
@@ -73,7 +66,7 @@ export default function LoginLogo() {
         <Box
           component="img"
           src={logoIgreja}
-          alt="Logo Igreja das Nações"
+          alt={t('loginHero.logoAlt')}
           sx={{
             width: { xs: 80, sm: 95, md: 110 },
             height: 'auto',

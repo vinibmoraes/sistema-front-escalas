@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Box, keyframes } from '@mui/material';
 import { FormatQuote as QuoteIcon } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
@@ -58,44 +58,16 @@ const fadeInUp = keyframes`
   to { opacity: 1; transform: translateY(0); }
 `;
 
-const versiculos = [
-  {
-    texto: "Pois nem mesmo o Filho do Homem veio para ser servido, mas para servir e dar sua vida como resgate por muitos.",
-    referencia: "Marcos 10:45"
-  },
-  {
-    texto: "Vocês foram chamados para viver em liberdade. Em vez disso, sirvam uns aos outros em amor.",
-    referencia: "Gálatas 5:13"
-  },
-  {
-    texto: "Cada um deve usar o dom que recebeu para servir os outros, como bons administradores da multiforme graça de Deus.",
-    referencia: "1 Pedro 4:10"
-  },
-  {
-    texto: "Quem quiser tornar-se grande entre vocês deve servir os demais.",
-    referencia: "Mateus 20:26"
-  },
-  {
-    texto: "Tudo o que fizerem, façam de todo o coração, como para o Senhor, e não para os homens.",
-    referencia: "Colossenses 3:23"
-  },
-  {
-    texto: "Eu e minha família serviremos ao Senhor.",
-    referencia: "Josué 24:15"
-  },
-  {
-    texto: "Trabalhem de boa vontade, como se estivessem servindo ao Senhor, e não a pessoas.",
-    referencia: "Efésios 6:7"
-  },
-  {
-    texto: "Se alguém me serve, siga-me; e onde eu estiver, ali também estará o meu servo.",
-    referencia: "João 12:26"
-  }
-];
+interface Verse {
+  text: string;
+  reference: string;
+}
 
 export default function LoginHero() {
   const { t } = useTranslation();
-  const [versiculoIndex, setVersiculoIndex] = useState(0);
+  const verses = t('loginHero.verses', { returnObjects: true }) as Verse[];
+  const bibleVersion = t('loginHero.bibleVersion');
+  const [verseIndex, setVerseIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -112,25 +84,25 @@ export default function LoginHero() {
     const interval = setInterval(() => {
       setIsVisible(false);
       setTimeout(() => {
-        setVersiculoIndex((prev) => (prev + 1) % versiculos.length);
+        setVerseIndex((prev) => (prev + 1) % verses.length);
         setIsVisible(true);
       }, 500);
     }, 8000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [verses.length]);
 
-  const versiculoAtual = versiculos[versiculoIndex];
+  const currentVerse = verses[verseIndex];
 
-  // Gerar estrelas
-  const stars = Array.from({ length: 50 }, (_, i) => ({
+  // Gerar estrelas (useMemo para manter posições fixas entre re-renderizações)
+  const stars = useMemo(() => Array.from({ length: 50 }, (_, i) => ({
     id: i,
     top: `${Math.random() * 100}%`,
     left: `${Math.random() * 100}%`,
     size: Math.random() * 2 + 1,
     delay: `${Math.random() * 4}s`,
     duration: `${Math.random() * 2 + 2}s`,
-  }));
+  })), []);
 
   return (
     <Box
@@ -147,7 +119,7 @@ export default function LoginHero() {
         overflow: 'hidden',
         opacity: isLoaded ? 1 : 0,
         transform: isLoaded ? 'scale(1)' : 'scale(1.15)',
-        transition: 'opacity 2.5s ease-out, transform 3s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+        transition: 'opacity 1s ease-out, transform 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
       }}
     >
       {/* Aurora no topo */}
@@ -292,14 +264,14 @@ export default function LoginHero() {
               color="rgba(255, 255, 255, 0.8)"
               sx={{ fontStyle: 'italic', lineHeight: 1.5, mb: 0.5 }}
             >
-              "{versiculoAtual.texto}"
+              "{currentVerse.text}"
             </CustomText>
             <CustomText
               size="0.75rem"
               weight={600}
               color="rgba(255, 255, 255, 0.4)"
             >
-              — {versiculoAtual.referencia} (NVT)
+              — {currentVerse.reference} ({bibleVersion})
             </CustomText>
           </Box>
         </Box>

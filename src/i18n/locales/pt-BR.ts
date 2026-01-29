@@ -7,6 +7,46 @@ export default {
   appName: "Gerenciador",
   appSubtitle: "de Escalas",
 
+  // Login Hero - Versículos
+  loginHero: {
+    verses: [
+      {
+        text: "Pois nem mesmo o Filho do Homem veio para ser servido, mas para servir e dar sua vida como resgate por muitos.",
+        reference: "Marcos 10:45"
+      },
+      {
+        text: "Vocês foram chamados para viver em liberdade. Em vez disso, sirvam uns aos outros em amor.",
+        reference: "Gálatas 5:13"
+      },
+      {
+        text: "Cada um deve usar o dom que recebeu para servir os outros, como bons administradores da multiforme graça de Deus.",
+        reference: "1 Pedro 4:10"
+      },
+      {
+        text: "Quem quiser tornar-se grande entre vocês deve servir os demais.",
+        reference: "Mateus 20:26"
+      },
+      {
+        text: "Tudo o que fizerem, façam de todo o coração, como para o Senhor, e não para os homens.",
+        reference: "Colossenses 3:23"
+      },
+      {
+        text: "Eu e minha família serviremos ao Senhor.",
+        reference: "Josué 24:15"
+      },
+      {
+        text: "Trabalhem de boa vontade, como se estivessem servindo ao Senhor, e não a pessoas.",
+        reference: "Efésios 6:7"
+      },
+      {
+        text: "Se alguém me serve, siga-me; e onde eu estiver, ali também estará o meu servo.",
+        reference: "João 12:26"
+      }
+    ],
+    bibleVersion: "NVT",
+    logoAlt: "Logo Igreja das Nações"
+  },
+
   // Login Page
   login: {
     title: "Gerenciador de Escalas",
@@ -26,6 +66,16 @@ export default {
       invalidEmail: "E-mail inválido",
       passwordRequired: "Senha é obrigatória",
       passwordMin: "Senha deve ter no mínimo 6 caracteres"
+    },
+    forgotPasswordDialog: {
+      title: "Recuperar senha",
+      description: "Digite seu email e enviaremos um link para você redefinir sua senha.",
+      emailLabel: "Email",
+      cancel: "Cancelar",
+      submit: "Enviar",
+      submitting: "Enviando...",
+      success: "Email de recuperação enviado com sucesso! Verifique sua caixa de entrada.",
+      error: "Erro ao enviar email de recuperação"
     }
   },
 

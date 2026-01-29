@@ -10,54 +10,58 @@ import {
   Alert,
   Box
 } from '@mui/material';
-import * as yup from 'yup';
+import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { forgotPasswordSchema, type ForgotPasswordFormData } from '../../Validations';
 
 interface ForgotPasswordDialogProps {
   open: boolean;
   onClose: () => void;
 }
 
-const emailSchema = yup.object({
-  email: yup.string().email('Email inválido').required('Email é obrigatório')
-});
-
-function ForgotPasswordDialog({ open, onClose }: ForgotPasswordDialogProps) {
-  const [email, setEmail] = useState('');
+export default function ForgotPasswordDialog({ open, onClose }: ForgotPasswordDialogProps) {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ForgotPasswordFormData>({
+    resolver: yupResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: '',
+    },
+  });
+
+  const onSubmit = async (data: ForgotPasswordFormData) => {
     setLoading(true);
     setError('');
 
     try {
-      await emailSchema.validate({ email });
-      
       // Aqui você faria a chamada para a API
-      // await authService.forgotPassword(email);
-      
+      // await authService.forgotPassword(data.email);
+
       // Simular sucesso
       await new Promise(resolve => setTimeout(resolve, 1000));
       setSuccess(true);
-      
+
       setTimeout(() => {
         handleClose();
       }, 2000);
-    } catch (err: any) {
-      if (err.name === 'ValidationError') {
-        setError(err.message);
-      } else {
-        setError('Erro ao enviar email de recuperação');
-      }
+    } catch {
+      setError(t('login.forgotPasswordDialog.error'));
     } finally {
       setLoading(false);
     }
   };
 
   const handleClose = () => {
-    setEmail('');
+    reset();
     setError('');
     setSuccess(false);
     onClose();
@@ -65,18 +69,18 @@ function ForgotPasswordDialog({ open, onClose }: ForgotPasswordDialogProps) {
 
   return (
     <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>Recuperar senha</DialogTitle>
-      
-      <Box component="form" onSubmit={handleSubmit}>
+      <DialogTitle>{t('login.forgotPasswordDialog.title')}</DialogTitle>
+
+      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
         <DialogContent>
           {success ? (
             <Alert severity="success">
-              Email de recuperação enviado com sucesso! Verifique sua caixa de entrada.
+              {t('login.forgotPasswordDialog.success')}
             </Alert>
           ) : (
             <>
               <DialogContentText mb={2}>
-                Digite seu email e enviaremos um link para você redefinir sua senha.
+                {t('login.forgotPasswordDialog.description')}
               </DialogContentText>
 
               {error && (
@@ -88,10 +92,11 @@ function ForgotPasswordDialog({ open, onClose }: ForgotPasswordDialogProps) {
               <TextField
                 autoFocus
                 fullWidth
-                label="Email"
+                label={t('login.forgotPasswordDialog.emailLabel')}
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register('email')}
+                error={!!errors.email}
+                helperText={errors.email?.message ? t(errors.email.message) : ''}
                 disabled={loading}
               />
             </>
@@ -100,11 +105,11 @@ function ForgotPasswordDialog({ open, onClose }: ForgotPasswordDialogProps) {
 
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={handleClose} disabled={loading}>
-            Cancelar
+            {t('login.forgotPasswordDialog.cancel')}
           </Button>
           {!success && (
             <Button type="submit" variant="contained" disabled={loading}>
-              {loading ? 'Enviando...' : 'Enviar'}
+              {loading ? t('login.forgotPasswordDialog.submitting') : t('login.forgotPasswordDialog.submit')}
             </Button>
           )}
         </DialogActions>
@@ -112,5 +117,3 @@ function ForgotPasswordDialog({ open, onClose }: ForgotPasswordDialogProps) {
     </Dialog>
   );
 }
-
-export default ForgotPasswordDialog;

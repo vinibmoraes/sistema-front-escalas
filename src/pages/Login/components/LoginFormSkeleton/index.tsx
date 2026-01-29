@@ -43,12 +43,6 @@ export default function LoginFormSkeleton() {
 
       {/* Botão Google */}
       <Skeleton variant="rounded" height={52} sx={{ borderRadius: 2 }} />
-
-      {/* Link de cadastro */}
-      <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, mt: 4 }}>
-        <Skeleton variant="text" width={140} height={20} />
-        <Skeleton variant="text" width={100} height={20} />
-      </Box>
     </Box>
   );
 }
