@@ -44,7 +44,8 @@ export default {
       }
     ],
     bibleVersion: "NVT",
-    logoAlt: "Logo Igreja das Nações"
+    logoAlt: "Logo Igreja das Nações",
+    preparingEnvironment: "Preparando seu ambiente..."
   },
 
   // Login Page

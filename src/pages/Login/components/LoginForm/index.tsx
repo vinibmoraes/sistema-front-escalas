@@ -31,9 +31,13 @@ const slideInRight = keyframes`
   to { opacity: 1; transform: translateX(0); }
 `;
 
-export default function LoginForm() {
+interface LoginFormProps {
+  onLoginSuccess?: () => void;
+}
+
+export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
-  const { login, isLoading } = useAuth();
+  const { login, isLoading } = useAuth({ onLoginSuccess });
   const navigate = useNavigate();
   const { t } = useTranslation();
 
@@ -91,7 +95,11 @@ export default function LoginForm() {
                 borderRadius: 2,
                 backgroundColor: '#f8fafc',
                 '& input': {
-                  color: '#1a2a4a',
+                  color: '#334155',
+                  '&:-webkit-autofill': {
+                    WebkitBoxShadow: '0 0 0 100px #f8fafc inset',
+                    WebkitTextFillColor: '#334155',
+                  },
                 },
                 '& fieldset': {
                   borderColor: errors.email ? '#ef4444' : '#e2e8f0',
@@ -142,7 +150,11 @@ export default function LoginForm() {
                 borderRadius: 2,
                 backgroundColor: '#f8fafc',
                 '& input': {
-                  color: '#1a2a4a',
+                  color: '#334155',
+                  '&:-webkit-autofill': {
+                    WebkitBoxShadow: '0 0 0 100px #f8fafc inset',
+                    WebkitTextFillColor: '#334155',
+                  },
                 },
                 '& fieldset': {
                   borderColor: errors.password ? '#ef4444' : '#e2e8f0',

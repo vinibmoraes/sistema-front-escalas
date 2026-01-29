@@ -5,14 +5,20 @@ import { useToast } from './useToast';
 import { ROUTES } from '@/constants/routes';
 import type { User, ApiResponse, AuthResponse } from '@/types';
 
+interface UseAuthOptions {
+  onLoginSuccess?: () => void;
+}
+
 interface UseAuthReturn {
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
+  navigateToHome: () => void;
   isLoading: boolean;
   user: User | null;
 }
 
-export function useAuth(): UseAuthReturn {
+export function useAuth(options?: UseAuthOptions): UseAuthReturn {
+  const { onLoginSuccess } = options || {};
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<User | null>(() => {
     const stored = localStorage.getItem('user');
@@ -21,7 +27,11 @@ export function useAuth(): UseAuthReturn {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  const login = useCallback(async (email: string, password: string) => {
+  const navigateToHome = useCallback(() => {
+    navigate(ROUTES.HOME, { replace: true });
+  }, [navigate]);
+
+  const login = useCallback(async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
     try {
       const response: ApiResponse<AuthResponse> = await authAPI.login(email, password);
@@ -32,24 +42,32 @@ export function useAuth(): UseAuthReturn {
         title: 'Login realizado com sucesso!',
         variant: 'success',
       });
-      navigate(ROUTES.HOME);
+
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      } else {
+        navigateToHome();
+      }
+
+      return true;
     } catch {
       toast({
         title: 'Erro ao fazer login',
         description: 'Verifique suas credenciais e tente novamente.',
         variant: 'destructive',
       });
+      return false;
     } finally {
       setIsLoading(false);
     }
-  }, [navigate, toast]);
+  }, [toast, onLoginSuccess, navigateToHome]);
 
   const logout = useCallback(() => {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user');
     setUser(null);
-    navigate(ROUTES.LOGIN);
+    navigate(ROUTES.LOGIN, { replace: true });
   }, [navigate]);
 
-  return { login, logout, isLoading, user };
+  return { login, logout, navigateToHome, isLoading, user };
 }

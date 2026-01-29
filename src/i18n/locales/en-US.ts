@@ -44,7 +44,8 @@ export default {
       }
     ],
     bibleVersion: "NIV",
-    logoAlt: "Church of the Nations Logo"
+    logoAlt: "Church of the Nations Logo",
+    preparingEnvironment: "Preparing your environment..."
   },
 
   // Login Page
