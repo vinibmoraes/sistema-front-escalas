@@ -1,6 +1,6 @@
 import { Card, CardContent, Box } from '@mui/material';
 import type { CardProps } from '@mui/material/Card';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import CustomText from '@/components/CustomText';
 
 interface CardWithHeaderProps extends CardProps {

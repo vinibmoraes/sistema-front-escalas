@@ -18,3 +18,6 @@ export { default as CardWithHeader } from './CardWithHeader';
 
 export { default as Skeleton } from './Skeleton';
 export type { SkeletonProps } from './Skeleton';
+
+export { default as BaseDialog } from './BaseDialog';
+export type { BaseDialogProps } from './BaseDialog';

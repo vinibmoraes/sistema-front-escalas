@@ -6,8 +6,6 @@ import {
   Avatar,
   Menu,
   MenuItem,
-  Breadcrumbs,
-  Link,
 } from '@mui/material';
 import CustomText from '@/components/CustomText';
 import {
@@ -22,23 +20,22 @@ import { ROUTES } from '@/constants/routes';
 
 interface HeaderProps {
   onMenuClick: () => void;
-  sidebarCollapsed: boolean;
   isMobile?: boolean;
 }
 
-const pageTitles: Record<string, { titleKey: string; breadcrumbKey: string }> = {
-  [ROUTES.HOME]: { titleKey: 'pageTitle.home', breadcrumbKey: 'breadcrumb.inicio' },
-  [ROUTES.REPORTS]: { titleKey: 'pageTitle.reports', breadcrumbKey: 'breadcrumb.relatorios' },
-  [ROUTES.USERS]: { titleKey: 'pageTitle.users', breadcrumbKey: 'breadcrumb.usuarios' },
-  [ROUTES.MINISTRIES]: { titleKey: 'pageTitle.ministries', breadcrumbKey: 'breadcrumb.ministerios' },
-  [ROUTES.VOLUNTEERS]: { titleKey: 'pageTitle.volunteers', breadcrumbKey: 'breadcrumb.voluntarios' },
-  [ROUTES.FAMILIES]: { titleKey: 'pageTitle.families', breadcrumbKey: 'breadcrumb.familias' },
-  [ROUTES.SCHEDULE]: { titleKey: 'pageTitle.schedule', breadcrumbKey: 'breadcrumb.agenda' },
-  [ROUTES.FIXED_EVENTS]: { titleKey: 'pageTitle.fixedEvents', breadcrumbKey: 'breadcrumb.eventosFixos' },
-  [ROUTES.SETTINGS]: { titleKey: 'pageTitle.settings', breadcrumbKey: 'breadcrumb.configuracoes' },
+const pageTitles: Record<string, string> = {
+  [ROUTES.HOME]: 'pageTitle.home',
+  [ROUTES.REPORTS]: 'pageTitle.reports',
+  [ROUTES.USERS]: 'pageTitle.users',
+  [ROUTES.MINISTRIES]: 'pageTitle.ministries',
+  [ROUTES.VOLUNTEERS]: 'pageTitle.volunteers',
+  [ROUTES.FAMILIES]: 'pageTitle.families',
+  [ROUTES.SCHEDULE]: 'pageTitle.schedule',
+  [ROUTES.FIXED_EVENTS]: 'pageTitle.fixedEvents',
+  [ROUTES.SETTINGS]: 'pageTitle.settings',
 };
 
-export default function Header({ onMenuClick, sidebarCollapsed, isMobile = false }: HeaderProps) {
+export default function Header({ onMenuClick, isMobile = false }: HeaderProps) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -58,7 +55,7 @@ export default function Header({ onMenuClick, sidebarCollapsed, isMobile = false
     navigate(ROUTES.LOGIN);
   };
 
-  const currentPage = pageTitles[location.pathname] || { titleKey: 'pageTitle.home', breadcrumbKey: 'breadcrumb.inicio' };
+  const currentPageTitle = pageTitles[location.pathname] || 'pageTitle.home';
 
   const user = JSON.parse(localStorage.getItem('user') || '{"name":"Usuário"}');
 
@@ -93,42 +90,13 @@ export default function Header({ onMenuClick, sidebarCollapsed, isMobile = false
               <MenuIcon />
             </IconButton>
           )}
-          <Box>
-            <Breadcrumbs
-              sx={{
-                fontSize: { xs: '0.7rem', sm: '0.8rem' },
-                color: 'text.secondary',
-                mb: 0.5,
-                '& .MuiBreadcrumbs-separator': {
-                  mx: 0.5,
-                },
-                display: { xs: 'none', sm: 'flex' },
-              }}
-            >
-              <Link
-                underline="hover"
-                color="inherit"
-                href={ROUTES.HOME}
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate(ROUTES.HOME);
-                }}
-                sx={{ cursor: 'pointer' }}
-              >
-                {t('home')}
-              </Link>
-              <CustomText size="0.8rem" color="text.primary" weight={500}>
-                {t(currentPage.breadcrumbKey)}
-              </CustomText>
-            </Breadcrumbs>
-            <CustomText
-              variant={isMobile ? 'h6' : 'h5'}
-              weight={700}
-              color="text.primary"
-            >
-              {t(currentPage.titleKey)}
-            </CustomText>
-          </Box>
+          <CustomText
+            variant={isMobile ? 'h6' : 'h5'}
+            weight={700}
+            color="text.primary"
+          >
+            {t(currentPageTitle)}
+          </CustomText>
         </Box>
 
         {/* Right Section */}

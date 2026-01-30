@@ -12,14 +12,13 @@ import {
   IconButton,
 } from '@mui/material';
 import { Google as GoogleIcon, Visibility, VisibilityOff } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CustomText from '@/components/CustomText';
 import { useAuth } from '@/hooks';
-import { ROUTES } from '@/constants/routes';
 import { loginSchema, type LoginFormData } from '../../Validations';
+import ForgotPasswordDialog from '../ForgotPasswordDialog';
 
 const fadeInUp = keyframes`
   from { opacity: 0; transform: translateY(30px); }
@@ -37,8 +36,8 @@ interface LoginFormProps {
 
 export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
+  const [forgotPasswordOpen, setForgotPasswordOpen] = useState(false);
   const { login, isLoading } = useAuth({ onLoginSuccess });
-  const navigate = useNavigate();
   const { t } = useTranslation();
 
   const {
@@ -134,7 +133,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    aria-label="toggle password visibility"
+                    aria-label={t('login.togglePassword')}
                     onClick={() => setShowPassword(!showPassword)}
                     edge="end"
                     sx={{ color: '#64748b' }}
@@ -214,16 +213,17 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
             )}
           />
           <MuiLink
-            href={ROUTES.FORGOT_PASSWORD}
-            onClick={(e) => {
-              e.preventDefault();
-              navigate(ROUTES.FORGOT_PASSWORD);
-            }}
+            component="button"
+            type="button"
+            onClick={() => setForgotPasswordOpen(true)}
             sx={{
               fontSize: '0.875rem',
               color: '#4A90E2',
               textDecoration: 'none',
               fontWeight: 500,
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
               '&:hover': {
                 textDecoration: 'underline',
               },
@@ -254,6 +254,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
               },
               '&:disabled': {
                 background: '#cbd5e1',
+                color: '#64748b',
               },
             }}
           >
@@ -293,6 +294,10 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
         </Button>
       </Box>
 
+      <ForgotPasswordDialog
+        open={forgotPasswordOpen}
+        onClose={() => setForgotPasswordOpen(false)}
+      />
     </Box>
   );
 }

@@ -60,6 +60,7 @@ export default {
     submitting: "Signing in...",
     or: "or",
     continueWithGoogle: "Continue with Google",
+    togglePassword: "Toggle password visibility",
     noAccount: "Don't have an account?",
     requestAccess: "Request access",
     validation: {
@@ -75,7 +76,8 @@ export default {
       cancel: "Cancel",
       submit: "Send",
       submitting: "Sending...",
-      success: "Recovery email sent successfully! Check your inbox.",
+      successTitle: "Email sent!",
+      success: "Check your inbox to reset your password.",
       error: "Error sending recovery email"
     }
   },
@@ -185,5 +187,12 @@ export default {
       title: "Language",
       description: "Select system language"
     }
+  },
+
+  // Not Found
+  notFound: {
+    title: "Page not found",
+    description: "Oops! The page you are looking for does not exist or has been moved.",
+    backHome: "Back to home"
   }
 };

@@ -45,7 +45,7 @@ export default function MainLayout() {
         onMobileClose={handleCloseMobileSidebar}
       />
       <Box sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', width: '100%' }}>
-        <Header onMenuClick={handleToggleSidebar} sidebarCollapsed={sidebarCollapsed} isMobile={isMobile} />
+        <Header onMenuClick={handleToggleSidebar} isMobile={isMobile} />
         <Box
           component="main"
           sx={{

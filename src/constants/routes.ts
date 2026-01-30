@@ -2,7 +2,6 @@ export const ROUTES = {
   // Public routes
   INDEX: '/',
   LOGIN: '/login',
-  FORGOT_PASSWORD: '/recuperar-senha',
   ACCEPT_INVITE: '/aceitar-convite',
 
   // Protected routes

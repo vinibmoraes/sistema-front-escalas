@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import type { SxProps, Theme } from '@mui/material/styles';
-import { ElementType, ReactNode } from 'react';
+import type { ElementType, ReactNode } from 'react';
 
 export type IconBoxSize = 'small' | 'medium' | 'large';
 export type IconBoxVariant = 'filled' | 'outlined' | 'soft';

@@ -1,18 +1,12 @@
 import { useState } from 'react';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  TextField,
-  Button,
-  Alert,
-  Box
-} from '@mui/material';
+import { TextField, Alert } from '@mui/material';
+import { LockReset as LockResetIcon } from '@mui/icons-material';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { authAPI } from '@/services/api';
+import { useToast } from '@/hooks';
+import { BaseDialog } from '@/components/base';
 import { forgotPasswordSchema, type ForgotPasswordFormData } from '../../Validations';
 
 interface ForgotPasswordDialogProps {
@@ -22,8 +16,8 @@ interface ForgotPasswordDialogProps {
 
 export default function ForgotPasswordDialog({ open, onClose }: ForgotPasswordDialogProps) {
   const { t } = useTranslation();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
   const {
@@ -40,21 +34,25 @@ export default function ForgotPasswordDialog({ open, onClose }: ForgotPasswordDi
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
     setLoading(true);
-    setError('');
 
     try {
-      // Aqui você faria a chamada para a API
-      // await authService.forgotPassword(data.email);
-
-      // Simular sucesso
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await authAPI.forgotPassword(data.email);
       setSuccess(true);
+
+      toast({
+        title: t('login.forgotPasswordDialog.successTitle'),
+        description: t('login.forgotPasswordDialog.success'),
+        variant: 'success',
+      });
 
       setTimeout(() => {
         handleClose();
       }, 2000);
     } catch {
-      setError(t('login.forgotPasswordDialog.error'));
+      toast({
+        title: t('login.forgotPasswordDialog.error'),
+        variant: 'destructive',
+      });
     } finally {
       setLoading(false);
     }
@@ -62,58 +60,40 @@ export default function ForgotPasswordDialog({ open, onClose }: ForgotPasswordDi
 
   const handleClose = () => {
     reset();
-    setError('');
     setSuccess(false);
     onClose();
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-      <DialogTitle>{t('login.forgotPasswordDialog.title')}</DialogTitle>
-
-      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
-        <DialogContent>
-          {success ? (
-            <Alert severity="success">
-              {t('login.forgotPasswordDialog.success')}
-            </Alert>
-          ) : (
-            <>
-              <DialogContentText mb={2}>
-                {t('login.forgotPasswordDialog.description')}
-              </DialogContentText>
-
-              {error && (
-                <Alert severity="error" sx={{ mb: 2 }}>
-                  {error}
-                </Alert>
-              )}
-
-              <TextField
-                autoFocus
-                fullWidth
-                label={t('login.forgotPasswordDialog.emailLabel')}
-                type="email"
-                {...register('email')}
-                error={!!errors.email}
-                helperText={errors.email?.message ? t(errors.email.message) : ''}
-                disabled={loading}
-              />
-            </>
-          )}
-        </DialogContent>
-
-        <DialogActions sx={{ px: 3, pb: 2 }}>
-          <Button onClick={handleClose} disabled={loading}>
-            {t('login.forgotPasswordDialog.cancel')}
-          </Button>
-          {!success && (
-            <Button type="submit" variant="contained" disabled={loading}>
-              {loading ? t('login.forgotPasswordDialog.submitting') : t('login.forgotPasswordDialog.submit')}
-            </Button>
-          )}
-        </DialogActions>
-      </Box>
-    </Dialog>
+    <BaseDialog
+      open={open}
+      onClose={handleClose}
+      onSubmit={handleSubmit(onSubmit)}
+      title={t('login.forgotPasswordDialog.title')}
+      description={success ? undefined : t('login.forgotPasswordDialog.description')}
+      icon={<LockResetIcon />}
+      cancelText={t('login.forgotPasswordDialog.cancel')}
+      submitText={loading ? t('login.forgotPasswordDialog.submitting') : t('login.forgotPasswordDialog.submit')}
+      loading={loading}
+      showSubmit={!success}
+      asForm
+    >
+      {success ? (
+        <Alert severity="success">
+          {t('login.forgotPasswordDialog.success')}
+        </Alert>
+      ) : (
+        <TextField
+          autoFocus
+          fullWidth
+          label={t('login.forgotPasswordDialog.emailLabel')}
+          type="email"
+          {...register('email')}
+          error={!!errors.email}
+          helperText={errors.email?.message ? t(errors.email.message) : ''}
+          disabled={loading}
+        />
+      )}
+    </BaseDialog>
   );
 }

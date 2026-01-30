@@ -11,7 +11,6 @@ import Families from '@/pages/Families';
 import Schedule from '@/pages/Schedule';
 import FixedEvents from '@/pages/FixedEvents';
 import Settings from '@/pages/Settings';
-import ForgotPassword from '@/pages/ForgotPassword';
 import AcceptInvite from '@/pages/AcceptInvite';
 import Index from '@/pages/Index';
 import { ROUTES } from '@/constants/routes';
@@ -22,7 +21,6 @@ export function AppRoutes() {
       {/* Public Routes */}
       <Route path={ROUTES.INDEX} element={<Index />} />
       <Route path={ROUTES.LOGIN} element={<Login />} />
-      <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPassword />} />
       <Route path={ROUTES.ACCEPT_INVITE} element={<AcceptInvite />} />
 
       {/* Protected Routes */}

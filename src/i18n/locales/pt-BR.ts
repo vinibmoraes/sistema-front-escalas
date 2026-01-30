@@ -60,6 +60,7 @@ export default {
     submitting: "Entrando...",
     or: "ou",
     continueWithGoogle: "Continuar com Google",
+    togglePassword: "Alternar visibilidade da senha",
     noAccount: "Não tem uma conta?",
     requestAccess: "Solicitar acesso",
     validation: {
@@ -75,8 +76,9 @@ export default {
       cancel: "Cancelar",
       submit: "Enviar",
       submitting: "Enviando...",
-      success: "Email de recuperação enviado com sucesso! Verifique sua caixa de entrada.",
-      error: "Erro ao enviar email de recuperação"
+      successTitle: "E-mail enviado!",
+      success: "Verifique sua caixa de entrada para redefinir sua senha.",
+      error: "Erro ao enviar e-mail de recuperação"
     }
   },
 
@@ -185,5 +187,12 @@ export default {
       title: "Idioma",
       description: "Selecione o idioma do sistema"
     }
+  },
+
+  // Not Found
+  notFound: {
+    title: "Página não encontrada",
+    description: "Ops! A página que você está procurando não existe ou foi movida.",
+    backHome: "Voltar ao início"
   }
 };
